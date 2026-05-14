@@ -1,0 +1,4 @@
+immobile_id,via,civico,scala,piano,numero_appartamento,interno,zona_nome,posizione_zona,tipologia_prevalente,stock_residenziale,dinamica_mercato_percentuale,quotazione_media_residenziale,quotazione_media_commerciale,quotazione_media_posti_auto,andamento_2024_residenziale,andamento_2024_commerciale,andamento_2024_posti_auto,compravendite_residenziali_2024,compravendite_non_residenziali_2024,compravendite_posti_auto_2024
+1,Via Circonvallazione,44,-,0,-,2,Norcia - Piazza Del Duomo,Centro,Abitazioni tipo economico,150,1.50%,€ 72.500,€ 73.200,€ 25.000,0.80%,1.20%,0.50%,41,32,22
+2,Via Milano,15,B,2,3,2,Milano - Centro,Centro,Abitazioni tipo economico,320,-0.50%,€ 5.800,€ 7.200,€ 85.000,-0.30%,0.20%,-0.10%,85,45,35
+3,Via Torino,88,C,5,7,1,Torino - Centro,Centro,Abitazioni tipo economico,280,2.10%,€ 4.200,€ 5.500,€ 65.000,1.80%,2.30%,1.50%,62,38,28

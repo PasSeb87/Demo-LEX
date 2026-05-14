@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risultati Valutazione - Deloitte</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #86BC25 0%, #007CB0 100%);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header-logo {
+            display: none;
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .breadcrumb {
+            max-width: 900px;
+            margin: 0 auto 40px;
+            padding: 0;
+            background-color: transparent;
+            border-bottom: none;
+            font-size: 13px;
+            color: #666666;
+        }
+
+        .breadcrumb a {
+            color: #007CB0;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .immobile-header {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #86BC25;
+        }
+
+        .immobile-header h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #000000;
+        }
+
+        .immobile-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        /* TAB PRINCIPALE */
+        .main-tabs-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .main-tabs-header {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+            background-color: #f9f9f9;
+            overflow-x: auto;
+        }
+
+        .main-tab-button {
+            flex: 1;
+            padding: 16px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            min-width: 150px;
+        }
+
+        .main-tab-button:hover {
+            background-color: #f0f0f0;
+            color: #333333;
+        }
+
+        .main-tab-button.active {
+            color: #86BC25;
+            border-bottom-color: #86BC25;
+            background-color: white;
+        }
+
+        .main-tab-content {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .main-tab-content.active {
+            display: block;
+        }
+
+        /* TAB SECONDARI (dentro Immobile) */
+        .tabs-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .tabs-header {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+            background-color: #f9f9f9;
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 16px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            min-width: 150px;
+        }
+
+        .tab-button:hover {
+            background-color: #f0f0f0;
+            color: #333333;
+        }
+
+        .tab-button.active {
+            color: #86BC25;
+            border-bottom-color: #86BC25;
+            background-color: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #86BC25;
+        }
+
+        .section-title::before {
+            content: "";
+            width: 4px;
+            height: 20px;
+            background-color: #86BC25;
+            margin-right: 12px;
+            border-radius: 2px;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .data-card {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 3px solid #007CB0;
+        }
+
+        .data-card-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .data-card-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .data-table thead {
+            background-color: #003d66;
+            color: white;
+        }
+
+        .data-table th {
+            padding: 12px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
+
+        .data-table tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 30px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 6px;
+        }
+
+        .info-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #007CB0;
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #333333;
+            line-height: 1.6;
+        }
+
+        .info-box strong {
+            color: #007CB0;
+        }
+
+        .value-highlight {
+            background-color: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-positive {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-neutral {
+            background-color: #e2e3e5;
+            color: #383d41;
+        }
+
+        .status-negative {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .sub-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .sub-tab-button {
+            padding: 8px 16px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .sub-tab-button:hover {
+            color: #333333;
+        }
+
+        .sub-tab-button.active {
+            color: #86BC25;
+            border-bottom-color: #86BC25;
+        }
+
+        .sub-tab-content {
+            display: none;
+        }
+
+        .sub-tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .tabs-header {
+                flex-wrap: wrap;
+            }
+
+            .tab-button {
+                flex: 0 1 auto;
+                min-width: 120px;
+                padding: 12px 15px;
+                font-size: 12px;
+            }
+
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .immobile-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="header-title">Valutazione Immobili</div>
+            <div class="header-subtitle">Ricerca e analisi della copertura assicurativa</div>
+        </div>
+    </div>
+
+    <div class="breadcrumb">
+        <a href="search.html">← Torna alla ricerca</a> | Risultati Valutazione
+    </div>
+
+    <div class="container">
+        <!-- HEADER IMMOBILE -->
+        <div class="immobile-header" id="immobileHeader">
+            <h2 id="indirizzoCompleto">Caricamento...</h2>
+            <div class="immobile-details">
+                <div class="detail-item">
+                    <span class="detail-label">Identificativo Appartamento</span>
+                    <span class="detail-value" id="detailAppartamento">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label"> </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB PRINCIPALE: IMMOBILE vs RISCHI vs IVE -->
+        <div class="main-tabs-container">
+            <div class="main-tabs-header">
+                <button class="main-tab-button active" onclick="switchMainTab(event, 'main-tab-immobile')">Immobile</button>
+                <button class="main-tab-button" onclick="switchMainTab(event, 'main-tab-rischi')">Rischi</button>
+                <button class="main-tab-button" onclick="switchMainTab(event, 'main-tab-ive')">IVE</button>
+            </div>
+
+            <!-- MAIN TAB 1: IMMOBILE -->
+            <div id="main-tab-immobile" class="main-tab-content active">
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    <p>Contenuto del tab Immobile (superfici, caratteristiche, mercato, valutazione)</p>
+                </div>
+            </div>
+
+            <!-- MAIN TAB 2: RISCHI -->
+            <div id="main-tab-rischi" class="main-tab-content">
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    <p>Contenuto del tab Rischi (pendenza, alluvioni, sismica, frane)</p>
+                </div>
+            </div>
+
+            <!-- MAIN TAB 3: IVE -->
+            <div id="main-tab-ive" class="main-tab-content">
+                <!-- IVE Header -->
+                <div style="background: linear-gradient(135deg, #003d66 0%, #007CB0 100%); color: white; padding: 30px; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <h3 style="font-size: 20px; margin-bottom: 10px; font-weight: 600;">Indice di Vulnerabilità Economica (IVE)</h3>
+                            <p style="font-size: 13px; opacity: 0.9;">Valore economico totale potenzialmente esposto a rischio naturale</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 40px; font-weight: 700; margin-bottom: 5px;" id="iveTotaleValore">€ -</div>
+                            <div style="font-size: 16px; opacity: 0.95;" id="iveTotalePercentuale">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Risk Summary Cards -->
+                <div class="section-title">Riepilogo Rischi</div>
+                <div class="data-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom: 40px;">
+                    <!-- Seismic Risk Card -->
+                    <div class="data-card" style="border-left: 4px solid #D32F2F; position: relative;">
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 20px;">
+                            <div style="font-size: 48px; margin-right: 15px; line-height: 1;">⚠️</div>
+                            <div style="flex: 1;">
+                                <div class="data-card-label">Pericolosità Sismica</div>
+                                <div style="font-size: 18px; font-weight: 700; color: #D32F2F; margin-top: 5px;" id="iveClasseSismica">-</div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">
+                            <span style="font-size: 12px; color: #666; font-weight: 600; text-transform: uppercase;">AG potenziale:</span>
+                            <span style="font-size: 16px; font-weight: 700; margin-left: 8px; color: #D32F2F;" id="iveAgPotenziale">-</span>
+                        </div>
+                        <div style="background: #f8d7da; padding: 15px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 11px; color: #721c24; margin-bottom: 6px; font-weight: 600; text-transform: uppercase;">Valore economico esposto</div>
+                            <div style="font-size: 24px; font-weight: 700; color: #721c24;" id="iveValoreSismica">€ -</div>
+                        </div>
+                    </div>
+
+                    <!-- Landslide Risk Card -->
+                    <div class="data-card" style="border-left: 4px solid #FF9800; position: relative;">
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 20px;">
+                            <div style="font-size: 48px; margin-right: 15px; line-height: 1;">🏔️</div>
+                            <div style="flex: 1;">
+                                <div class="data-card-label">Pericolosità Frane</div>
+                                <div style="font-size: 18px; font-weight: 700; color: #FF9800; margin-top: 5px;" id="iveClasseFrane">-</div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">
+                            <span style="font-size: 12px; color: #666; font-weight: 600; text-transform: uppercase;">Impatto:</span>
+                            <span style="font-size: 16px; font-weight: 700; margin-left: 8px; color: #FF9800;" id="iveImpattoFrane">-</span>
+                        </div>
+                        <div style="background: #fff3cd; padding: 15px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 11px; color: #856404; margin-bottom: 6px; font-weight: 600; text-transform: uppercase;">Valore economico esposto</div>
+                            <div style="font-size: 24px; font-weight: 700; color: #856404;" id="iveValoreFrane">€ -</div>
+                        </div>
+                    </div>
+
+                    <!-- Flood Risk Card -->
+                    <div class="data-card" style="border-left: 4px solid #007CB0; position: relative;">
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 20px;">
+                            <div style="font-size: 48px; margin-right: 15px; line-height: 1;">🌊</div>
+                            <div style="flex: 1;">
+                                <div class="data-card-label">Pericolosità Alluvioni</div>
+                                <div style="font-size: 18px; font-weight: 700; color: #007CB0; margin-top: 5px;" id="iveClasseAlluvioni">-</div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">
+                            <span style="font-size: 12px; color: #666; font-weight: 600; text-transform: uppercase;">Impatto:</span>
+                            <span style="font-size: 16px; font-weight: 700; margin-left: 8px; color: #007CB0;" id="iveImpattoAlluvioni">-</span>
+                        </div>
+                        <div style="background: #d1ecf1; padding: 15px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 11px; color: #0c5460; margin-bottom: 6px; font-weight: 600; text-transform: uppercase;">Valore economico esposto</div>
+                            <div style="font-size: 24px; font-weight: 700; color: #0c5460;" id="iveValoreAlluvioni">€ -</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Section -->
+                <div class="tabs-container">
+                    <div class="section-title">Analisi dell'Indice IVE</div>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Metodologia</h4>
+                        <div class="info-box" id="iveMetodologia">-</div>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Contributi dei Rischi</h4>
+                        <div class="info-box" id="iveContributiRischi">-</div>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Impatto dell'Acclività</h4>
+                        <div class="info-box" id="iveImpattoAcclivita">-</div>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Sintesi e Resilienza Economica</h4>
+                        <div class="info-box" style="background-color: #fff3cd; border-left-color: #FBC02D;" id="iveSintesi">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dati IVE (Indice di Vulnerabilità Economica)
+        const iveData = [
+            {
+                immobile_id: 1,
+                valore_immobile: 72731,
+                pendenza_percentuale: 6,
+                ive_totale: 27797,
+                ive_percentuale: 38,
+                rischio_sismico: {
+                    classificazione: "Molto Elevata",
+                    ag_potenziale: 25.49,
+                    valore_esposto: 18531
+                },
+                rischio_frane: {
+                    classificazione: "Moderata",
+                    impatto_percentuale: 13,
+                    valore_esposto: 9265
+                },
+                rischio_alluvioni: {
+                    classificazione: "Nulla",
+                    impatto_percentuale: 0,
+                    valore_esposto: 0
+                },
+                analisi_testuale: {
+                    metodologia: "L'indice di Vulnerabilità Economica è un indicatore sviluppato tramite un algoritmo proprietario, che combina il valore economico dell'immobile con i parametri di rischiosità connessi all'area geografica certificata dagli enti preposti. L'indice rappresenta il valore immobiliare effettivamente esposto a rischio fisico.",
+                    contributi_rischi: "Il valore dell'IVE, stimato pari a circa 38% del valore economico dell'immobile (corrispondente a una perdita potenziale di circa €27.800), riflette principalmente l'elevata pericolosità sismica dell'area, che rappresenta la componente di rischio prevalente. Il contributo del rischio da movimenti franosi è presente, risultato dell'entità moderata e contribuisce in misura secondaria alla vulnerabilità complessiva. La pericolosità alluvionale, invece, è assente o trascurabile secondo le disposizioni.",
+                    impatto_acclivita: "L'acclività del sito, pari al 6%, determina solo un effetto marginale sull'IVE, comportando un lieve incremento dei costi di manutenzione potenziali e una modesta incidenza sulla valutazione economica dell'immobile.",
+                    sintesi: "In sintesi, l'IVE conferma che la resilienza economica dell'immobile è fortemente condizionata dal rischio sismico, elemento che dovrebbe essere prioritariamente gestito in ogni strategia di mitigazione e protezione patrimoniale."
+                }
+            },
+            {
+                immobile_id: 2,
+                valore_immobile: 435000,
+                pendenza_percentuale: 2,
+                ive_totale: 108750,
+                ive_percentuale: 25,
+                rischio_sismico: {
+                    classificazione: "Media",
+                    ag_potenziale: 15.32,
+                    valore_esposto: 65250
+                },
+                rischio_frane: {
+                    classificazione: "Assenti",
+                    impatto_percentuale: 0,
+                    valore_esposto: 0
+                },
+                rischio_alluvioni: {
+                    classificazione: "Bassa",
+                    impatto_percentuale: 5,
+                    valore_esposto: 21750
+                },
+                analisi_testuale: {
+                    metodologia: "L'indice di Vulnerabilità Economica è un indicatore sviluppato tramite un algoritmo proprietario, che combina il valore economico dell'immobile con i parametri di rischiosità connessi all'area geografica certificata dagli enti preposti. L'indice rappresenta il valore immobiliare effettivamente esposto a rischio fisico.",
+                    contributi_rischi: "Il valore dell'IVE, stimato pari a circa 25% del valore economico dell'immobile (corrispondente a una perdita potenziale di circa €108.750), riflette principalmente una pericolosità sismica di livello medio. Il contributo del rischio alluvionale è presente ma contenuto, mentre il rischio da frane è assente nell'area di localizzazione dell'immobile.",
+                    impatto_acclivita: "L'acclività del sito, pari al 2%, determina un effetto marginale sull'IVE, con condizioni favorevoli per la stabilità strutturale e bassi costi di manutenzione potenziali.",
+                    sintesi: "In sintesi, l'IVE conferma che la resilienza economica dell'immobile è moderatamente condizionata dal rischio sismico, con una esposizione complessiva inferiore rispetto ad altre aree. La gestione del rischio sismico rimane comunque prioritaria in ogni strategia di protezione patrimoniale."
+                }
+            },
+            {
+                immobile_id: 3,
+                valore_immobile: 520000,
+                pendenza_percentuale: 8,
+                ive_totale: 156000,
+                ive_percentuale: 30,
+                rischio_sismico: {
+                    classificazione: "Elevata",
+                    ag_potenziale: 18.75,
+                    valore_esposto: 93600
+                },
+                rischio_frane: {
+                    classificazione: "Moderata",
+                    impatto_percentuale: 8,
+                    valore_esposto: 41600
+                },
+                rischio_alluvioni: {
+                    classificazione: "Media",
+                    impatto_percentuale: 3,
+                    valore_esposto: 15600
+                },
+                analisi_testuale: {
+                    metodologia: "L'indice di Vulnerabilità Economica è un indicatore sviluppato tramite un algoritmo proprietario, che combina il valore economico dell'immobile con i parametri di rischiosità connessi all'area geografica certificata dagli enti preposti. L'indice rappresenta il valore immobiliare effettivamente esposto a rischio fisico.",
+                    contributi_rischi: "Il valore dell'IVE, stimato pari a circa 30% del valore economico dell'immobile (corrispondente a una perdita potenziale di circa €156.000), riflette una combinazione di rischi significativi. La pericolosità sismica rappresenta la componente prevalente, seguita da una moderata esposizione al rischio franoso e una media pericolosità alluvionale. Questi fattori combinati determinano un'esposizione economica complessiva rilevante.",
+                    impatto_acclivita: "L'acclività del sito, pari all'8%, determina un effetto più significativo sull'IVE rispetto ad altre aree, comportando un incremento dei costi di manutenzione potenziali e una maggiore incidenza sulla valutazione economica dell'immobile, specialmente in relazione al rischio franoso.",
+                    sintesi: "In sintesi, l'IVE conferma che la resilienza economica dell'immobile è fortemente condizionata da una combinazione di rischi naturali, con il rischio sismico come elemento prevalente. Una strategia di mitigazione e protezione patrimoniale deve affrontare prioritariamente il rischio sismico, seguito da interventi di stabilizzazione per il rischio franoso."
+                }
+            }
+        ];
+
+        // Funzione per ottenere l'ID immobile
+        function getImmobileId() {
+            return 1; // Default immobile 1
+        }
+
+        // Funzione per caricare i dati IVE
+        function loadIVEData() {
+            const immobileId = getImmobileId();
+            const ive = iveData.find(i => i.immobile_id === immobileId);
+
+            if (ive) {
+                // Carica header IVE
+                document.getElementById('iveTotaleValore').textContent = 
+                    `€ ${ive.ive_totale.toLocaleString('it-IT')}`;
+                document.getElementById('iveTotalePercentuale').textContent = 
+                    `${ive.ive_percentuale}% del valore immobile`;
+
+                // Carica dati rischio sismico
+                document.getElementById('iveClasseSismica').textContent = 
+                    ive.rischio_sismico.classificazione;
+                document.getElementById('iveAgPotenziale').textContent = 
+                    `${ive.rischio_sismico.ag_potenziale}%`;
+                document.getElementById('iveValoreSismica').textContent = 
+                    `€ ${ive.rischio_sismico.valore_esposto.toLocaleString('it-IT')}`;
+
+                // Carica dati rischio frane
+                document.getElementById('iveClasseFrane').textContent = 
+                    ive.rischio_frane.classificazione;
+                document.getElementById('iveImpattoFrane').textContent = 
+                    `${ive.rischio_frane.impatto_percentuale}%`;
+                document.getElementById('iveValoreFrane').textContent = 
+                    `€ ${ive.rischio_frane.valore_esposto.toLocaleString('it-IT')}`;
+
+                // Carica dati rischio alluvioni
+                document.getElementById('iveClasseAlluvioni').textContent = 
+                    ive.rischio_alluvioni.classificazione;
+                document.getElementById('iveImpattoAlluvioni').textContent = 
+                    `${ive.rischio_alluvioni.impatto_percentuale}%`;
+                document.getElementById('iveValoreAlluvioni').textContent = 
+                    `€ ${ive.rischio_alluvioni.valore_esposto.toLocaleString('it-IT')}`;
+
+                // Carica analisi testuale
+                document.getElementById('iveMetodologia').textContent = 
+                    ive.analisi_testuale.metodologia;
+                document.getElementById('iveContributiRischi').textContent = 
+                    ive.analisi_testuale.contributi_rischi;
+                document.getElementById('iveImpattoAcclivita').textContent = 
+                    ive.analisi_testuale.impatto_acclivita;
+                document.getElementById('iveSintesi').textContent = 
+                    ive.analisi_testuale.sintesi;
+            }
+        }
+
+        // Funzione per switchare main tab
+        function switchMainTab(event, tabId) {
+            event.preventDefault();
+            
+            const mainTabs = document.querySelectorAll('.main-tab-content');
+            mainTabs.forEach(tab => tab.classList.remove('active'));
+            
+            const mainButtons = document.querySelectorAll('.main-tab-button');
+            mainButtons.forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Carica i dati al caricamento della pagina
+        window.addEventListener('load', loadIVEData);
+    </script>
+</body>
+</html>

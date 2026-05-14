@@ -1,0 +1,4 @@
+immobile_id,via,civico,scala,piano,numero_appartamento,interno,superfici_coperte_mq,superfici_scoperte_mq,vani_abitabili,vani_accessori,box_posti_auto,piano_principale,esposizione_principale,n_affacci,altezza_soffitti,grado_luminosita,livelli_interni,distribuzione_vani,stato_conservazione,qualita_rifiniture,tipo_riscaldamento,classe_energetica,vista_aerea_url
+1,Via Circonvallazione,44,-,-,-,-,100,0,4,0,0,Piano Terra,Normale,2,3.2,Normale,1,Adeguato,Discreto,standard,Controllato con contabilizzazione,D,Norcia.png
+2,Via Milano,15,B,2,3,2,85,15,2,1,0,Piano Terra,Normale,2,3.0,Normale,1,Adeguato,Buono,Centralizzato,Controllato con contabilizzazione,C,Norcia.png
+3,Via Torino,88,C,5,7,1,120,30,4,3,2,Piano Terra,Normale,3,3.5,Buona,2,Adeguato,Discreto,Autonomo,Controllato con contabilizzazione,E,Norcia.png

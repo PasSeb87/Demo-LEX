@@ -1,0 +1,390 @@
+<!-- SEZIONE 5: RISCHI AMBIENTALI E GEOMORFOLOGICI -->
+<div class="tabs-container">
+    <div class="tabs-header">
+        <button class="tab-button active" onclick="switchTab(event, 'tab-pendenza')">Pendenza Suolo</button>
+        <button class="tab-button" onclick="switchTab(event, 'tab-alluvioni')">Pericolosità Alluvioni</button>
+        <button class="tab-button" onclick="switchTab(event, 'tab-sismica')">Pericolosità Sismica</button>
+        <button class="tab-button" onclick="switchTab(event, 'tab-frane')">Pericolosità Frane</button>
+        <button class="tab-button" onclick="switchTab(event, 'tab-storico-frane')">Storico Frane</button>
+    </div>
+
+    <!-- TAB 1: PENDENZA SUOLO -->
+    <div id="tab-pendenza" class="tab-content active">
+        <div class="section-title">Pendenza Suolo (Acclività)</div>
+        
+        <div class="info-box" id="descrizionePendenza">-</div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Mappa di Localizzazione</h4>
+            <img id="mappaPendenza" src="" alt="Mappa pendenza" style="width: 100%; max-height: 400px; border-radius: 6px; object-fit: cover; margin-bottom: 20px;">
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Viale Enrico Lombrici - Norcia</h4>
+            <div class="data-grid">
+                <div class="data-card">
+                    <div class="data-card-label">% Pendenza</div>
+                    <div class="data-card-value" id="percentualePendenza">-</div>
+                </div>
+                <div class="data-card">
+                    <div class="data-card-label">Classificazione</div>
+                    <div class="data-card-value" id="classificazionePendenza">-</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Fruibilità</h4>
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <div style="flex: 1; background-color: #4CAF50; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Eccellente</div>
+                <div style="flex: 1; background-color: #8BC34A; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Buona</div>
+                <div style="flex: 1; background-color: #FFC107; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Moderata</div>
+                <div style="flex: 1; background-color: #FF9800; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Difficile</div>
+                <div style="flex: 1; background-color: #F44336; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Critica</div>
+                <div style="flex: 1; background-color: #9C27B0; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Impraticabile</div>
+            </div>
+            <div class="data-card">
+                <div class="data-card-label">Classificazione Fruibilità</div>
+                <div class="data-card-value" id="fruibilitaPendenza">-</div>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Controinddicazioni</h4>
+            <div class="info-box" id="controinddicazioniPendenza">-</div>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Verifiche Suggerite</h4>
+            <div class="info-box" id="verifichePendenza">-</div>
+        </div>
+    </div>
+
+    <!-- TAB 2: PERICOLOSITÀ ALLUVIONI -->
+    <div id="tab-alluvioni" class="tab-content">
+        <div class="section-title">Pericolosità Alluvioni</div>
+        
+        <div class="info-box" id="descrizioneAlluvioni">-</div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Mappa di Localizzazione</h4>
+            <img id="mappaAlluvioni" src="" alt="Mappa alluvioni" style="width: 100%; max-height: 400px; border-radius: 6px; object-fit: cover; margin-bottom: 20px;">
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Viale Enrico Lombrici - Norcia</h4>
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <div style="flex: 1; background-color: #C8E6C9; padding: 10px; border-radius: 4px; text-align: center; color: #333; font-weight: 600; font-size: 12px;">Nessuna</div>
+                <div style="flex: 1; background-color: #81D4FA; padding: 10px; border-radius: 4px; text-align: center; color: #333; font-weight: 600; font-size: 12px;">Bassa</div>
+                <div style="flex: 1; background-color: #1976D2; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Media</div>
+                <div style="flex: 1; background-color: #D32F2F; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Elevata</div>
+            </div>
+            <div class="data-card">
+                <div class="data-card-label">Livello Pericolosità</div>
+                <div class="data-card-value" id="livelloAlluvioni">-</div>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Potenziali Eventi</h4>
+            <div class="info-box" id="eventiAlluvioni">-</div>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Potenziali Danni</h4>
+            <div class="info-box" id="danniAlluvioni">-</div>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Altre Aree Pericolosità nel Raggio di 500m</h4>
+            <div class="info-box" id="altreAreeAlluvioni">-</div>
+        </div>
+    </div>
+
+    <!-- TAB 3: PERICOLOSITÀ SISMICA -->
+    <div id="tab-sismica" class="tab-content">
+        <div class="section-title">Pericolosità Sismica</div>
+        
+        <div class="info-box" id="descrizioneSismica">-</div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Mappa di Localizzazione</h4>
+            <img id="mappaSismica" src="" alt="Mappa sismica" style="width: 100%; max-height: 400px; border-radius: 6px; object-fit: cover; margin-bottom: 20px;">
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Viale Enrico Lombrici - Norcia</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <svg id="gaugeChart" width="200" height="200" style="margin-bottom: 20px;"></svg>
+                    <div class="data-card" style="width: 100%;">
+                        <div class="data-card-label">AG Potenziale</div>
+                        <div class="data-card-value" id="agPotenziale">-</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="data-card" style="margin-bottom: 15px;">
+                        <div class="data-card-label">Classificazione Sismica</div>
+                        <div class="data-card-value" id="classificazioneSismica">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Potenziali Eventi</h4>
+            <div class="info-box" id="eventiSismica">-</div>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Potenziali Danni</h4>
+            <div class="info-box" id="danniSismica">-</div>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Epicentri Terremoti Accaduti</h4>
+            <div class="info-box" id="epicentriSismica">-</div>
+        </div>
+    </div>
+
+    <!-- TAB 4: PERICOLOSITÀ FRANE -->
+    <div id="tab-frane" class="tab-content">
+        <div class="section-title">Pericolosità Frane</div>
+        
+        <div class="info-box" id="descrizioneFrane">-</div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Mappa di Localizzazione</h4>
+            <img id="mappaFrane" src="" alt="Mappa frane" style="width: 100%; max-height: 400px; border-radius: 6px; object-fit: cover; margin-bottom: 20px;">
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Viale Enrico Lombrici - Norcia</h4>
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <div style="flex: 1; background-color: #C8E6C9; padding: 10px; border-radius: 4px; text-align: center; color: #333; font-weight: 600; font-size: 12px;">Assenti</div>
+                <div style="flex: 1; background-color: #FFF9C4; padding: 10px; border-radius: 4px; text-align: center; color: #333; font-weight: 600; font-size: 12px;">Aree Attenzione</div>
+                <div style="flex: 1; background-color: #FFE082; padding: 10px; border-radius: 4px; text-align: center; color: #333; font-weight: 600; font-size: 12px;">Moderata</div>
+                <div style="flex: 1; background-color: #FFB74D; padding: 10px; border-radius: 4px; text-align: center; color: #333; font-weight: 600; font-size: 12px;">Media</div>
+                <div style="flex: 1; background-color: #FF7043; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Elevata</div>
+                <div style="flex: 1; background-color: #D32F2F; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Molto Elevata</div>
+            </div>
+            <div class="data-card">
+                <div class="data-card-label">Livello Pericolosità</div>
+                <div class="data-card-value" id="livelloFrane">-</div>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Potenziali Eventi</h4>
+            <div class="info-box" id="eventiFrane">-</div>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Potenziali Danni</h4>
+            <div class="info-box" id="danniFrane">-</div>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Altre Aree Pericolosità nel Raggio di 500m</h4>
+            <div class="info-box" id="altreAreeFrane">-</div>
+        </div>
+    </div>
+
+    <!-- TAB 5: STORICO FRANE ACCADUTE -->
+    <div id="tab-storico-frane" class="tab-content">
+        <div class="section-title">Storico Frane Accadute</div>
+        
+        <div class="info-box" id="descrizioneStoricoFrane">-</div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Mappa di Localizzazione</h4>
+            <img id="mappaStoricoFrane" src="" alt="Mappa storico frane" style="width: 100%; max-height: 400px; border-radius: 6px; object-fit: cover; margin-bottom: 20px;">
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Presenti nel Raggio di 500m intorno a Viale Enrico Lombrici - Norcia</h4>
+            <div class="data-card" style="margin-bottom: 20px;">
+                <div class="data-card-label">Numero Eventi Franosi</div>
+                <div class="data-card-value" id="numEventiStoricoFrane">-</div>
+            </div>
+            <div class="info-box" id="legenda1StoricoFrane" style="background-color: #FFF9C4; border-left-color: #FBC02D; margin-bottom: 15px;">-</div>
+            <div class="info-box" id="legenda2StoricoFrane" style="background-color: #C8E6C9; border-left-color: #4CAF50;">-</div>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Dettagli Eventi</h4>
+            <div class="info-box" id="dettagliStoricoFrane">-</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Dati CSV per rischi
+    const rischiPendenzaData = [
+        {immobile_id: 1, percentuale_pendenza: "3-6%", classificazione_pendenza: "Leggera Pendenza", fruibilita_classificazione: "Eccellente", controinddicazioni: "Elenco le possibili criticità o problematiche che potrebbero interessare l'edificio e l'area circostante a causa della pendenza del terreno. Include verifiche strutturali impianti e di manutenzione", verifiche_suggerite: "Suggeriscielemento gli aspetti da controllare durante le ispezioni dell'edificio. Considerare condizioni specifiche della pendenza. Include verifiche strutturali impianti e di manutenzione", mappa_url: "pendenza_suolo.png"},
+        {immobile_id: 2, percentuale_pendenza: "3-6%", classificazione_pendenza: "Leggera Pendenza", fruibilita_classificazione: "Buona", controinddicazioni: "Elenco le possibili criticità o problematiche che potrebbero interessare l'edificio e l'area circostante a causa della pendenza del terreno. Include verifiche strutturali impianti e di manutenzione", verifiche_suggerite: "Suggeriscielemento gli aspetti da controllare durante le ispezioni dell'edificio. Considerare condizioni specifiche della pendenza. Include verifiche strutturali impianti e di manutenzione", mappa_url: "pendenza_suolo.png"},
+        {immobile_id: 3, percentuale_pendenza: "3-6%", classificazione_pendenza: "Leggera Pendenza", fruibilita_classificazione: "Moderata", controinddicazioni: "Elenco le possibili criticità o problematiche che potrebbero interessare l'edificio e l'area circostante a causa della pendenza del terreno. Include verifiche strutturali impianti e di manutenzione", verifiche_suggerite: "Suggeriscielemento gli aspetti da controllare durante le ispezioni dell'edificio. Considerare condizioni specifiche della pendenza. Include verifiche strutturali impianti e di manutenzione", mappa_url: "pendenza_suolo.png"}
+    ];
+
+    const rischiAlluvioniData = [
+        {immobile_id: 1, descrizione: "Il grado di pericolosità idraulica è definito in base alla frequenza con cui un'area può essere interessata da eventi alluvionali. L'analisi di questi eventi consente di valutare la capacità di diffusione delle acque e la possibilità di diffusione dei danni", livello_pericolosita: "Nessuna Pericolosità", potenziali_eventi: "Zone non soggette a rischi di oligamento significativo. Area con buon drenaggio naturale e assenza di zone critiche nelle vicinanze", potenziali_danni: "Nessuna limitazione particolare diffuso del territorio per quanto riguarda il rischio idraulico. Attività ordinarie non soggette a interferenze da parte di fenomeni alluvionali. Visibilità e servizi non esposti a criticità idrauliche significative", altre_aree_500m: "P0 Nessuna Pericolosità - Area sicura dal punto di vista idraulico", mappa_url: "alluvioni.png"},
+        {immobile_id: 2, descrizione: "Il grado di pericolosità idraulica è definito in base alla frequenza con cui un'area può essere interessata da eventi alluvionali. L'analisi di questi eventi consente di valutare la capacità di diffusione delle acque e la possibilità di diffusione dei danni", livello_pericolosita: "Bassa Pericolosità", potenziali_eventi: "Zone non soggette a rischi di oligamento significativo. Area con buon drenaggio naturale e assenza di zone critiche nelle vicinanze", potenziali_danni: "Nessuna limitazione particolare diffuso del territorio per quanto riguarda il rischio idraulico. Attività ordinarie non soggette a interferenze da parte di fenomeni alluvionali. Visibilità e servizi non esposti a criticità idrauliche significative", altre_aree_500m: "P0 Nessuna Pericolosità - Area sicura dal punto di vista idraulico", mappa_url: "alluvioni.png"},
+        {immobile_id: 3, descrizione: "Il grado di pericolosità idraulica è definito in base alla frequenza con cui un'area può essere interessata da eventi alluvionali. L'analisi di questi eventi consente di valutare la capacità di diffusione delle acque e la possibilità di diffusione dei danni", livello_pericolosita: "Media Pericolosità", potenziali_eventi: "Zone non soggette a rischi di oligamento significativo. Area con buon drenaggio naturale e assenza di zone critiche nelle vicinanze", potenziali_danni: "Nessuna limitazione particolare diffuso del territorio per quanto riguarda il rischio idraulico. Attività ordinarie non soggette a interferenze da parte di fenomeni alluvionali. Visibilità e servizi non esposti a criticità idrauliche significative", altre_aree_500m: "P0 Nessuna Pericolosità - Area sicura dal punto di vista idraulico", mappa_url: "alluvioni.png"}
+    ];
+
+    const rischiSismicaData = [
+        {immobile_id: 1, descrizione: "La pericolosità sismacindicità dell'intensità dello scuotimento del suolo attesa in un determinato luogo a causa di un terremoto. Questa misura non è una previsione deterministica (cioè non indica con certezza quando e dove si verificheranno terremoti) ma si basa su analisi probabilistiche. Ciò significa che la pericolosità sismica stima la probabilità che il suolo possa subire un certo livello di scuotimento in un periodo futuro senza indicare un evento specifico", ag_percentuale: "25.49%", classificazione_sismica: "Molto Elevata", potenziali_eventi: "Eventi sismici di elevata intensità con movimenti del suolo rapidi e violenti su aree estremamente vaste. Possibili informazioni evidenti del territorio con fenomeni di liquefazione frane e smottamenti. Scosse prolungate con repliche significative", potenziali_danni: "Danni strutturali gravi e diffusi negli edifici con possibili crolli. Lesioni profonde nelle strutture portanti e cedimenti delle fondazioni. Danneggiamenti severi alle infrastrutture critiche. Rischio elevato per l'incolumità delle persone. Necessari interventi di ricostruzione massivi e prolungati", epicentri_info: "Ultimi 100 anni: Forte >20 Grado; Marcata >20 Grado; Molto Forte >20 Grado", mappa_url: "sismica.png"},
+        {immobile_id: 2, descrizione: "La pericolosità sismacindicità dell'intensità dello scuotimento del suolo attesa in un determinato luogo a causa di un terremoto. Questa misura non è una previsione deterministica (cioè non indica con certezza quando e dove si verificheranno terremoti) ma si basa su analisi probabilistiche. Ciò significa che la pericolosità sismica stima la probabilità che il suolo possa subire un certo livello di scuotimento in un periodo futuro senza indicare un evento specifico", ag_percentuale: "15.32%", classificazione_sismica: "Media", potenziali_eventi: "Eventi sismici di elevata intensità con movimenti del suolo rapidi e violenti su aree estremamente vaste. Possibili informazioni evidenti del territorio con fenomeni di liquefazione frane e smottamenti. Scosse prolungate con repliche significative", potenziali_danni: "Danni strutturali gravi e diffusi negli edifici con possibili crolli. Lesioni profonde nelle strutture portanti e cedimenti delle fondazioni. Danneggiamenti severi alle infrastrutture critiche. Rischio elevato per l'incolumità delle persone. Necessari interventi di ricostruzione massivi e prolungati", epicentri_info: "Ultimi 100 anni: Forte >20 Grado; Marcata >20 Grado; Molto Forte >20 Grado", mappa_url: "sismica.png"},
+        {immobile_id: 3, descrizione: "La pericolosità sismacindicità dell'intensità dello scuotimento del suolo attesa in un determinato luogo a causa di un terremoto. Questa misura non è una previsione deterministica (cioè non indica con certezza quando e dove si verificheranno terremoti) ma si basa su analisi probabilistiche. Ciò significa che la pericolosità sismica stima la probabilità che il suolo possa subire un certo livello di scuotimento in un periodo futuro senza indicare un evento specifico", ag_percentuale: "18.75%", classificazione_sismica: "Elevata", potenziali_eventi: "Eventi sismici di elevata intensità con movimenti del suolo rapidi e violenti su aree estremamente vaste. Possibili informazioni evidenti del territorio con fenomeni di liquefazione frane e smottamenti. Scosse prolungate con repliche significative", potenziali_danni: "Danni strutturali gravi e diffusi negli edifici con possibili crolli. Lesioni profonde nelle strutture portanti e cedimenti delle fondazioni. Danneggiamenti severi alle infrastrutture critiche. Rischio elevato per l'incolumità delle persone. Necessari interventi di ricostruzione massivi e prolungati", epicentri_info: "Ultimi 100 anni: Forte >20 Grado; Marcata >20 Grado; Molto Forte >20 Grado", mappa_url: "sismica.png"}
+    ];
+
+    const rischiFrameData = [
+        {immobile_id: 1, descrizione: "La pericolosità da franappresenta la probabilità di occorrenza di un fenomeno potenzialmente distruttivo di una determinata intensità in un dato periodo e in una data area. Le aree pericolosità da frana includono oltre alle frane già verificatesi anche le zone di possibile evoluzione dei fenomeni e le zone potenzialmente suscettibili a nuovi fenomeni franosi", livello_pericolosita: "Assenti", potenziali_eventi: "Area che non manifesta leggerezza instabilità del terreno. Possibili fenomeni franosi di bassa intensità in caso di piogge prolungate. Potenziali movimenti lenti e graduali del terreno generalmente prevedibili", potenziali_danni: "Nessun danno significativo atteso. Possibili danni lievi e superficiali negli edifici. Lesioni minori nelle strutture. Nessun rischio per l'incolumità delle persone", altre_aree_500m: "Area P1 Moderata - Zone con possibile instabilità minima. Eventuali danni lievi e superficiali", mappa_url: "frane.png"},
+        {immobile_id: 2, descrizione: "La pericolosità da franappresenta la probabilità di occorrenza di un fenomeno potenzialmente distruttivo di una determinata intensità in un dato periodo e in una data area. Le aree pericolosità da frana includono oltre alle frane già verificatesi anche le zone di possibile evoluzione dei fenomeni e le zone potenzialmente suscettibili a nuovi fenomeni franosi", livello_pericolosita: "Aree Attenzione", potenziali_eventi: "Area che non manifesta leggerezza instabilità del terreno. Possibili fenomeni franosi di bassa intensità in caso di piogge prolungate. Potenziali movimenti lenti e graduali del terreno generalmente prevedibili", potenziali_danni: "Nessun danno significativo atteso. Possibili danni lievi e superficiali negli edifici. Lesioni minori nelle strutture. Nessun rischio per l'incolumità delle persone", altre_aree_500m: "Area P1 Moderata - Zone con possibile instabilità minima. Eventuali danni lievi e superficiali", mappa_url: "frane.png"},
+        {immobile_id: 3, descrizione: "La pericolosità da franappresenta la probabilità di occorrenza di un fenomeno potenzialmente distruttivo di una determinata intensità in un dato periodo e in una data area. Le aree pericolosità da frana includono oltre alle frane già verificatesi anche le zone di possibile evoluzione dei fenomeni e le zone potenzialmente suscettibili a nuovi fenomeni franosi", livello_pericolosita: "Moderata", potenziali_eventi: "Area che non manifesta leggerezza instabilità del terreno. Possibili fenomeni franosi di bassa intensità in caso di piogge prolungate. Potenziali movimenti lenti e graduali del terreno generalmente prevedibili", potenziali_danni: "Nessun danno significativo atteso. Possibili danni lievi e superficiali negli edifici. Lesioni minori nelle strutture. Nessun rischio per l'incolumità delle persone", altre_aree_500m: "Area P1 Moderata - Zone con possibile instabilità minima. Eventuali danni lievi e superficiali", mappa_url: "frane.png"}
+    ];
+
+    const rischiStoricoFrameData = [
+        {immobile_id: 1, descrizione: "Gli eventi franosi sono frane per cui è nota la data di attivazione e che possono rappresentare nuovi fenomeni o riattivazioni di frane già esistenti. Ogni evento può essere georeferito con un punto o un poligono indipendentemente dalle dimensioni della frana e la precisione della localizzazione può variare da esatta fino ad un'approssimazione di 10 km", num_eventi: "1", legenda_evento_1: "Frana con Scivolamento rotazionale traslativo", legenda_evento_2: "Area stabile senza fenomeni di dissesto in atto o potenziali", dettagli_evento: "Evento 1: Frana con Scivolamento rotazionale traslativo - Scivolamento del terreno con possibili danni a strutture e infrastrutture. Necessari interventi di stabilizzazione", mappa_url: "storico_frane.png"},
+        {immobile_id: 2, descrizione: "Gli eventi franosi sono frane per cui è nota la data di attivazione e che possono rappresentare nuovi fenomeni o riattivazioni di frane già esistenti. Ogni evento può essere georeferito con un punto o un poligono indipendentemente dalle dimensioni della frana e la precisione della localizzazione può variare da esatta fino ad un'approssimazione di 10 km", num_eventi: "0", legenda_evento_1: "Nessun evento franoso registrato", legenda_evento_2: "Area stabile senza fenomeni di dissesto in atto o potenziali", dettagli_evento: "Nessun evento franoso registrato nel raggio di 500m", mappa_url: "storico_frane.png"},
+        {immobile_id: 3, descrizione: "Gli eventi franosi sono frane per cui è nota la data di attivazione e che possono rappresentare nuovi fenomeni o riattivazioni di frane già esistenti. Ogni evento può essere georeferito con un punto o un poligono indipendentemente dalle dimensioni della frana e la precisione della localizzazione può variare da esatta fino ad un'approssimazione di 10 km", num_eventi: "2", legenda_evento_1: "Frana con Scivolamento rotazionale traslativo", legenda_evento_2: "Area mal stata interessata da eventi franosi", dettagli_evento: "Evento 1: Frana con Scivolamento rotazionale traslativo - Scivolamento del terreno con possibili danni a strutture e infrastrutture. Evento 2: Area mal stata interessata da eventi franosi", mappa_url: "storico_frane.png"}
+    ];
+
+    // Funzione per caricare i dati rischi
+    function loadRischiData() {
+        const immobileId = getImmobileId();
+
+        // Carica dati pendenza
+        const pendenza = rischiPendenzaData.find(p => p.immobile_id === immobileId);
+        if (pendenza) {
+            document.getElementById('descrizionePendenza').textContent = "La pendenza del terreno su cui sorge lo stabile rappresenta un elemento fondamentale per la sua stabilità nel tempo. Un suolo con pendenza contenuta garantisce condizioni ottimali sia per la struttura che per le aree esterne mentre acclività più marcate possono comportare necessità di monitoraggi e manutenzioni specifiche. L'analisi di questo parametro permette di valutare potenziali criticità e pianificare eventuali interventi preventivi per la conservazione del bene.";
+            document.getElementById('mappaPendenza').src = pendenza.mappa_url;
+            document.getElementById('percentualePendenza').textContent = pendenza.percentuale_pendenza;
+            document.getElementById('classificazionePendenza').textContent = pendenza.classificazione_pendenza;
+            document.getElementById('fruibilitaPendenza').textContent = pendenza.fruibilita_classificazione;
+            document.getElementById('controinddicazioniPendenza').textContent = pendenza.controinddicazioni;
+            document.getElementById('verifichePendenza').textContent = pendenza.verifiche_suggerite;
+        }
+
+        // Carica dati alluvioni
+        const alluvioni = rischiAlluvioniData.find(a => a.immobile_id === immobileId);
+        if (alluvioni) {
+            document.getElementById('descrizioneAlluvioni').textContent = alluvioni.descrizione;
+            document.getElementById('mappaAlluvioni').src = alluvioni.mappa_url;
+            document.getElementById('livelloAlluvioni').textContent = alluvioni.livello_pericolosita;
+            document.getElementById('eventiAlluvioni').textContent = alluvioni.potenziali_eventi;
+            document.getElementById('danniAlluvioni').textContent = alluvioni.potenziali_danni;
+            document.getElementById('altreAreeAlluvioni').textContent = alluvioni.altre_aree_500m;
+        }
+
+        // Carica dati sismica
+        const sismica = rischiSismicaData.find(s => s.immobile_id === immobileId);
+        if (sismica) {
+            document.getElementById('descrizioneSismica').textContent = sismica.descrizione;
+            document.getElementById('mappaSismica').src = sismica.mappa_url;
+            document.getElementById('agPotenziale').textContent = sismica.ag_percentuale;
+            document.getElementById('classificazioneSismica').textContent = sismica.classificazione_sismica;
+            document.getElementById('eventiSismica').textContent = sismica.potenziali_eventi;
+            document.getElementById('danniSismica').textContent = sismica.potenziali_danni;
+            document.getElementById('epicentriSismica').textContent = sismica.epicentri_info;
+
+            // Crea gauge SVG
+            createGaugeSismica(parseFloat(sismica.ag_percentuale));
+        }
+
+        // Carica dati frane
+        const frane = rischiFrameData.find(f => f.immobile_id === immobileId);
+        if (frane) {
+            document.getElementById('descrizioneFrane').textContent = frane.descrizione;
+            document.getElementById('mappaFrane').src = frane.mappa_url;
+            document.getElementById('livelloFrane').textContent = frane.livello_pericolosita;
+            document.getElementById('eventiFrane').textContent = frane.potenziali_eventi;
+            document.getElementById('danniFrane').textContent = frane.potenziali_danni;
+            document.getElementById('altreAreeFrane').textContent = frane.altre_aree_500m;
+        }
+
+        // Carica dati storico frane
+        const storicoFrane = rischiStoricoFrameData.find(sf => sf.immobile_id === immobileId);
+        if (storicoFrane) {
+            document.getElementById('descrizioneStoricoFrane').textContent = storicoFrane.descrizione;
+            document.getElementById('mappaStoricoFrane').src = storicoFrane.mappa_url;
+            document.getElementById('numEventiStoricoFrane').textContent = storicoFrane.num_eventi;
+            document.getElementById('legenda1StoricoFrane').textContent = storicoFrane.legenda_evento_1;
+            document.getElementById('legenda2StoricoFrane').textContent = storicoFrane.legenda_evento_2;
+            document.getElementById('dettagliStoricoFrane').textContent = storicoFrane.dettagli_evento;
+        }
+    }
+
+    // Funzione per creare gauge SVG sismica
+    function createGaugeSismica(percentage) {
+        const svg = document.getElementById('gaugeChart');
+        const radius = 80;
+        const centerX = 100;
+        const centerY = 100;
+
+        // Colore basato sulla percentuale
+        let color = '#4CAF50'; // Verde
+        if (percentage > 20) color = '#D32F2F'; // Rosso
+        else if (percentage > 15) color = '#FF9800'; // Arancione
+        else if (percentage > 10) color = '#FFC107'; // Giallo
+
+        // Crea il gauge
+        const startAngle = -Math.PI / 2;
+        const endAngle = Math.PI / 2;
+        const angle = startAngle + (endAngle - startAngle) * (percentage / 30);
+
+        // Background arc
+        const bgPath = `M ${centerX} ${centerY} L ${centerX + radius * Math.cos(startAngle)} ${centerY + radius * Math.sin(startAngle)} A ${radius} ${radius} 0 1 1 ${centerX + radius * Math.cos(endAngle)} ${centerY + radius * Math.sin(endAngle)} Z`;
+        const bgElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        bgElement.setAttribute('d', bgPath);
+        bgElement.setAttribute('fill', '#e0e0e0');
+        svg.appendChild(bgElement);
+
+        // Colored arc
+        const colorPath = `M ${centerX} ${centerY} L ${centerX + radius * Math.cos(startAngle)} ${centerY + radius * Math.sin(startAngle)} A ${radius} ${radius} 0 ${angle > startAngle + Math.PI ? 1 : 0} 1 ${centerX + radius * Math.cos(angle)} ${centerY + radius * Math.sin(angle)} Z`;
+        const colorElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        colorElement.setAttribute('d', colorPath);
+        colorElement.setAttribute('fill', color);
+        svg.appendChild(colorElement);
+
+        // Needle
+        const needleX = centerX + (radius - 20) * Math.cos(angle);
+        const needleY = centerY + (radius - 20) * Math.sin(angle);
+        const needle = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        needle.setAttribute('x1', centerX);
+        needle.setAttribute('y1', centerY);
+        needle.setAttribute('x2', needleX);
+        needle.setAttribute('y2', needleY);
+        needle.setAttribute('stroke', '#333');
+        needle.setAttribute('stroke-width', '3');
+        svg.appendChild(needle);
+
+        // Center circle
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', centerX);
+        circle.setAttribute('cy', centerY);
+        circle.setAttribute('r', '8');
+        circle.setAttribute('fill', '#333');
+        svg.appendChild(circle);
+
+        // Labels
+        const labels = ['0', '10', '20', '30'];
+        const labelAngles = [startAngle, startAngle + (endAngle - startAngle) / 3, startAngle + 2 * (endAngle - startAngle) / 3, endAngle];
+        labels.forEach((label, i) => {
+            const labelX = centerX + (radius + 15) * Math.cos(labelAngles[i]);
+            const labelY = centerY + (radius + 15) * Math.sin(labelAngles[i]);
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            text.setAttribute('x', labelX);
+            text.setAttribute('y', labelY);
+            text.setAttribute('text-anchor', 'middle');
+            text.setAttribute('dominant-baseline', 'middle');
+            text.setAttribute('font-size', '12');
+            text.setAttribute('fill', '#333');
+            text.textContent = label;
+            svg.appendChild(text);
+        });
+    }
+
+    // Carica i dati al caricamento della pagina
+    window.addEventListener('load', loadRischiData);
+</script>

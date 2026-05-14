@@ -1,0 +1,1826 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risultati Valutazione - Deloitte</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #86BC25 0%, #007CB0 100%);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header-logo {
+            display: none;
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .breadcrumb {
+            max-width: 900px;
+            margin: 0 auto 40px;
+            padding: 0;
+            background-color: transparent;
+            border-bottom: none;
+            font-size: 13px;
+            color: #666666;
+        }
+
+        .breadcrumb a {
+            color: #007CB0;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .immobile-header {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #86BC25;
+        }
+
+        .immobile-header h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #000000;
+        }
+
+        .immobile-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        /* TAB PRINCIPALE */
+        .main-tabs-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .main-tabs-header {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+            background-color: #f9f9f9;
+            overflow-x: auto;
+        }
+
+        .main-tab-button {
+            flex: 1;
+            padding: 16px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            min-width: 150px;
+        }
+
+        .main-tab-button:hover {
+            background-color: #f0f0f0;
+            color: #333333;
+        }
+
+        .main-tab-button.active {
+            color: #86BC25;
+            border-bottom-color: #86BC25;
+            background-color: white;
+        }
+
+        .main-tab-content {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .main-tab-content.active {
+            display: block;
+        }
+
+        /* TAB SECONDARI (dentro Immobile) */
+        .tabs-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .tabs-header {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+            background-color: #f9f9f9;
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 16px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            min-width: 150px;
+        }
+
+        .tab-button:hover {
+            background-color: #f0f0f0;
+            color: #333333;
+        }
+
+        .tab-button.active {
+            color: #86BC25;
+            border-bottom-color: #86BC25;
+            background-color: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #86BC25;
+        }
+
+        .section-title::before {
+            content: "";
+            width: 4px;
+            height: 20px;
+            background-color: #86BC25;
+            margin-right: 12px;
+            border-radius: 2px;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .data-card {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 3px solid #007CB0;
+        }
+
+        .data-card-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .data-card-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .data-table thead {
+            background-color: #003d66;
+            color: white;
+        }
+
+        .data-table th {
+            padding: 12px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
+
+        .data-table tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 30px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 6px;
+        }
+
+        .info-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #007CB0;
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #333333;
+            line-height: 1.6;
+        }
+
+        .info-box strong {
+            color: #007CB0;
+        }
+
+        .value-highlight {
+            background-color: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-positive {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-neutral {
+            background-color: #e2e3e5;
+            color: #383d41;
+        }
+
+        .status-negative {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .sub-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .sub-tab-button {
+            padding: 8px 16px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .sub-tab-button:hover {
+            color: #333333;
+        }
+
+        .sub-tab-button.active {
+            color: #86BC25;
+            border-bottom-color: #86BC25;
+        }
+
+        .sub-tab-content {
+            display: none;
+        }
+
+        .sub-tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .tabs-header {
+                flex-wrap: wrap;
+            }
+
+            .tab-button {
+                flex: 0 1 auto;
+                min-width: 120px;
+                padding: 12px 15px;
+                font-size: 12px;
+            }
+
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .immobile-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="header-title">Valutazione Immobili</div>
+            <div class="header-subtitle">Ricerca e analisi della copertura assicurativa</div>
+        </div>
+    </div>
+
+    <div class="breadcrumb">
+        <a href="search.html">← Torna alla ricerca</a> | Risultati Valutazione
+    </div>
+
+    <div class="container">
+        <!-- HEADER IMMOBILE -->
+        <div class="immobile-header" id="immobileHeader">
+            <h2 id="indirizzoCompleto">Caricamento...</h2>
+            <div class="immobile-details">
+                <div class="detail-item">
+                    <span class="detail-label">Identificativo Appartamento</span>
+                    <span class="detail-value" id="detailAppartamento">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label"> </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB PRINCIPALE: IMMOBILE vs RISCHI -->
+        <div class="main-tabs-container">
+            <div class="main-tabs-header">
+                <button class="main-tab-button active" onclick="switchMainTab(event, 'main-tab-immobile')">Immobile</button>
+                <button class="main-tab-button" onclick="switchMainTab(event, 'main-tab-rischi')">Rischi</button>
+                <button class="main-tab-button" onclick="switchMainTab(event, 'main-tab-coperture')">Coperture Assicurative</button>
+            </div>
+
+            <!-- MAIN TAB 1: IMMOBILE (contiene le 4 sezioni originali) -->
+            <div id="main-tab-immobile" class="main-tab-content active">
+                <!-- SEZIONE 1: SUPERFICI & CARATTERISTICHE -->
+                <div class="tabs-container">
+                    <div class="tabs-header">
+                        <button class="tab-button active" onclick="switchTab(event, 'tab-superfici')">Superfici & Vani</button>
+                        <button class="tab-button" onclick="switchTab(event, 'tab-caratteristiche')">Caratteristiche</button>
+                        <button class="tab-button" onclick="switchTab(event, 'tab-vista-aerea')">Vista Aerea</button>
+                    </div>
+
+                    <!-- TAB: Superfici & Vani -->
+                    <div id="tab-superfici" class="tab-content active">
+                        <div class="section-title">Superfici e Vani Accessori Abitazione</div>
+                        <div class="data-grid">
+                            <div class="data-card">
+                                <div class="data-card-label">Superfici Coperte</div>
+                                <div class="data-card-value" id="superficiCoperte">-</div>
+                            </div>
+                            <div class="data-card">
+                                <div class="data-card-label">Superfici Scoperte</div>
+                                <div class="data-card-value" id="superficiScoperte">-</div>
+                            </div>
+                            <div class="data-card">
+                                <div class="data-card-label">Vani Abitabili</div>
+                                <div class="data-card-value" id="vaniAbitabili">-</div>
+                            </div>
+                            <div class="data-card">
+                                <div class="data-card-label">Vani Accessori</div>
+                                <div class="data-card-value" id="vaniAccessori">-</div>
+                            </div>
+                            <div class="data-card">
+                                <div class="data-card-label">Box e Posti Auto</div>
+                                <div class="data-card-value" id="boxPostiAuto">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: Caratteristiche -->
+                    <div id="tab-caratteristiche" class="tab-content">
+                        <div class="section-title">Caratteristiche Immobile</div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Piano Immobile</h4>
+                            <div class="data-grid">
+                                <div class="data-card">
+                                    <div class="data-card-label">Piano Principale</div>
+                                    <div class="data-card-value" id="pianoPrincipale">-</div>
+                                </div>
+                                <div class="data-card">
+                                    <div class="data-card-label">Ascensore</div>
+                                    <div class="data-card-value" id="ascensore">-</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Esposizione Immobile</h4>
+                            <div class="data-grid">
+                                <div class="data-card">
+                                    <div class="data-card-label">Esposizione Principale</div>
+                                    <div class="data-card-value" id="esposizionePrincipale">-</div>
+                                </div>
+                                <div class="data-card">
+                                    <div class="data-card-label">N° Affacci</div>
+                                    <div class="data-card-value" id="nAffacci">-</div>
+                                </div>
+                                <div class="data-card">
+                                    <div class="data-card-label">Altezza Soffitti</div>
+                                    <div class="data-card-value" id="altezzaSoffitti">-</div>
+                                </div>
+                                <div class="data-card">
+                                    <div class="data-card-label">Grado di Luminosità</div>
+                                    <div class="data-card-value" id="gradoLuminosita">-</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Distribuzione Superfici</h4>
+                            <div class="data-grid">
+                                <div class="data-card">
+                                    <div class="data-card-label">Livelli Interni</div>
+                                    <div class="data-card-value" id="livelliInterni">-</div>
+                                </div>
+                                <div class="data-card">
+                                    <div class="data-card-label">Distribuzione Vani Interni</div>
+                                    <div class="data-card-value" id="distribuzioneVani">-</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Stato di Conservazione e Rifiniture</h4>
+                            <div class="data-grid">
+                                <div class="data-card">
+                                    <div class="data-card-label">Stato di Conservazione Interno</div>
+                                    <div class="data-card-value" id="statoConservazione">-</div>
+                                </div>
+                                <div class="data-card">
+                                    <div class="data-card-label">Qualità Rifiniture</div>
+                                    <div class="data-card-value" id="qualitaRifiniture">-</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Riscaldamento e Classe Energetica</h4>
+                            <div class="data-grid">
+                                <div class="data-card">
+                                    <div class="data-card-label">Tipo Riscaldamento</div>
+                                    <div class="data-card-value" id="tipoRiscaldamento">-</div>
+                                </div>
+                                <div class="data-card">
+                                    <div class="data-card-label">Classe Energetica</div>
+                                    <div class="data-card-value" id="classeEnergetica">-</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: Vista Aerea -->
+                    <div id="tab-vista-aerea" class="tab-content">
+                        <div class="section-title">Vista Aerea Immobile</div>
+                        <div style="margin-bottom: 20px;">
+                            <img id="vistAereaImg" src="" alt="Vista aerea" style="width: 100%; max-height: 500px; border-radius: 6px; object-fit: cover;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEZIONE 2: DESCRIZIONE & DOTAZIONI -->
+                <div class="tabs-container">
+                    <div class="tabs-header">
+                        <button class="tab-button active" onclick="switchTab(event, 'tab-descrizione')">Descrizione Immobile</button>
+                        <button class="tab-button" onclick="switchTab(event, 'tab-dati-edificio')">Dati Edificio</button>
+                    </div>
+
+                    <!-- TAB: Descrizione -->
+                    <div id="tab-descrizione" class="tab-content active">
+                        <div class="section-title">Descrizione Immobile</div>
+                        <div id="descrizioneImmobile" style="line-height: 1.8; color: #333333; font-size: 14px;">-</div>
+                    </div>
+
+                    <!-- TAB: Dati Edificio -->
+                    <div id="tab-dati-edificio" class="tab-content">
+                        <div class="section-title">Dati Edificio</div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                            <div>
+                                <img id="fotoEdificio" src="" alt="Foto edificio" style="width: 100%; border-radius: 6px; object-fit: cover; max-height: 300px;">
+                            </div>
+                            <div>
+                                <div class="data-grid">
+                                    <div class="data-card">
+                                        <div class="data-card-label">Tipologia Edificio</div>
+                                        <div class="data-card-value" id="tipologiaEdificio">-</div>
+                                    </div>
+                                    <div class="data-card">
+                                        <div class="data-card-label">Ubicazione Edificio</div>
+                                        <div class="data-card-value" id="ubicazioneEdificio">-</div>
+                                    </div>
+                                    <div class="data-card">
+                                        <div class="data-card-label">Età Edificio</div>
+                                        <div class="data-card-value" id="etaEdificio">-</div>
+                                    </div>
+                                    <div class="data-card">
+                                        <div class="data-card-label">Stato Edificio</div>
+                                        <div class="data-card-value" id="statoEdificio">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEZIONE 3: MERCATO & QUOTAZIONI -->
+                <div class="tabs-container">
+                    <div class="tabs-header">
+                        <button class="tab-button active" onclick="switchTab(event, 'tab-dinamica-mercato')">Dinamica Mercato</button>
+                        <button class="tab-button" onclick="switchTab(event, 'tab-andamenti-quotazioni')">Andamenti Quotazioni</button>
+                        <button class="tab-button" onclick="switchTab(event, 'tab-compravendite')">Compravendite</button>
+                    </div>
+
+                    <!-- TAB: Dinamica Mercato -->
+                    <div id="tab-dinamica-mercato" class="tab-content active">
+                        <div class="section-title">Dinamicità Mercato Residenziale</div>
+                        <div class="data-grid">
+                            <div class="data-card">
+                                <div class="data-card-label">Zona Immobiliare</div>
+                                <div class="data-card-value" id="zonaNome">-</div>
+                            </div>
+                            <div class="data-card">
+                                <div class="data-card-label">Posizione Zona</div>
+                                <div class="data-card-value" id="posizioneZona">-</div>
+                            </div>
+                            <div class="data-card">
+                                <div class="data-card-label">Tipologia Prevalente</div>
+                                <div class="data-card-value" id="tipologiaPrevalente">-</div>
+                            </div>
+                            <div class="data-card">
+                                <div class="data-card-label">Stock Residenziale</div>
+                                <div class="data-card-value" id="stockResidenziale">-</div>
+                            </div>
+                            <div class="data-card">
+                                <div class="data-card-label">Dinamica Mercato</div>
+                                <div class="data-card-value" id="dinamicaMercato">-</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Andamento Quotazioni Medie</h4>
+                            <div class="data-grid">
+                                <div class="data-card">
+                                    <div class="data-card-label">Quotazione Media Residenziale</div>
+                                    <div class="data-card-value" id="quotazioneMediaResidenziale">-</div>
+                                </div>
+                                <div class="data-card">
+                                    <div class="data-card-label">Quotazione Media Commerciale</div>
+                                    <div class="data-card-value" id="quotazioneMediaCommerciale">-</div>
+                                </div>
+                                <div class="data-card">
+                                    <div class="data-card-label">Quotazione Media Posti Auto</div>
+                                    <div class="data-card-value" id="quotazioneMediaPostiAuto">-</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Andamento 2025</h4>
+                            <div class="data-grid">
+                                <div class="data-card">
+                                    <div class="data-card-label">Andamento Residenziale</div>
+                                    <div class="data-card-value" id="andamento2024Residenziale">-</div>
+                                </div>
+                                <div class="data-card">
+                                    <div class="data-card-label">Andamento Commerciale</div>
+                                    <div class="data-card-value" id="andamento2024Commerciale">-</div>
+                                </div>
+                                <div class="data-card">
+                                    <div class="data-card-label">Andamento Posti Auto</div>
+                                    <div class="data-card-value" id="andamento2024PostiAuto">-</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: Andamenti Quotazioni -->
+                    <div id="tab-andamenti-quotazioni" class="tab-content">
+                        <div class="section-title">Andamenti Quotazioni per Tipologia</div>
+                        <div class="sub-tabs">
+                            <button class="sub-tab-button active" onclick="switchSubTab(event, 'sub-residenziale')">Residenziale</button>
+                            <button class="sub-tab-button" onclick="switchSubTab(event, 'sub-commerciale')">Commerciale</button>
+                            <button class="sub-tab-button" onclick="switchSubTab(event, 'sub-posti-auto')">Posti Auto</button>
+                        </div>
+
+                        <div id="sub-residenziale" class="sub-tab-content active">
+                            <div class="chart-container">
+                                <canvas id="chartResidenziale"></canvas>
+                            </div>
+                        </div>
+
+                        <div id="sub-commerciale" class="sub-tab-content">
+                            <div class="chart-container">
+                                <canvas id="chartCommerciale"></canvas>
+                            </div>
+                        </div>
+
+                        <div id="sub-posti-auto" class="sub-tab-content">
+                            <div class="chart-container">
+                                <canvas id="chartPostiAuto"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: Compravendite -->
+                    <div id="tab-compravendite" class="tab-content">
+                        <div class="section-title">Ripartizione Compravendite</div>
+                        <div class="data-grid">
+                            <div class="data-card">
+                                <div class="data-card-label">Compravendite Residenziali 2025</div>
+                                <div class="data-card-value" id="compravenditeResidenziali">-</div>
+                            </div>
+                            <div class="data-card">
+                                <div class="data-card-label">Compravendite Non Residenziali 2025</div>
+                                <div class="data-card-value" id="compravenditeNonResidenziali">-</div>
+                            </div>
+                            <div class="data-card">
+                                <div class="data-card-label">Compravendite Posti Auto 2025</div>
+                                <div class="data-card-value" id="compravenditePostiAuto">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEZIONE 4: VALUTAZIONE IMMOBILE -->
+                <div class="tabs-container">
+                    <div class="tabs-header">
+                        <button class="tab-button active" onclick="switchTab(event, 'tab-analisi-comparabili')">Analisi Comparabili</button>
+                        <button class="tab-button" onclick="switchTab(event, 'tab-valutazione-risultante')">Valutazione Risultante</button>
+                    </div>
+
+                    <!-- TAB: Analisi Comparabili -->
+                    <div id="tab-analisi-comparabili" class="tab-content active">
+                        <div class="section-title">Riscontro Valutazione - Comparabili Simili</div>
+                        <div class="data-grid">
+                            <div class="data-card">
+                                <div class="data-card-label">Area di Ricerca</div>
+                                <div class="data-card-value" id="areaRicerca">-</div>
+                            </div>
+                            <div class="data-card">
+                                <div class="data-card-label">Criteri Ricerca</div>
+                                <div class="data-card-value" id="criteriRicerca">-</div>
+                            </div>
+                            <div class="data-card">
+                                <div class="data-card-label">Periodo Temporale</div>
+                                <div class="data-card-value" id="periodoTemporale">-</div>
+                            </div>
+                            <div class="data-card">
+                                <div class="data-card-label">Comparabili Trovati</div>
+                                <div class="data-card-value" id="comparabiliTrovati">-</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <div class="info-box" id="noteValutazione">-</div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: Valutazione Risultante -->
+                    <div id="tab-valutazione-risultante" class="tab-content">
+                        <div class="section-title">Esito Valutazione - Metodo & Risultati</div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Metodo di Valutazione</h4>
+                            <div class="info-box" id="metodoValutazione">-</div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Fonte Dati</h4>
+                            <div class="info-box" id="fonteDati">-</div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Superfici Commerciale Risultante</h4>
+                            <div class="data-grid">
+                                <div class="data-card">
+                                    <div class="data-card-label">Superficie Commerciale</div>
+                                    <div class="data-card-value" id="superficieCommerciale">-</div>
+                                </div>
+                                <div class="data-card">
+                                    <div class="data-card-label">Prezzo Medio al Mq</div>
+                                    <div class="data-card-value" id="prezzoMedioMq">-</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Valori di Valutazione</h4>
+                            <div class="chart-container">
+                                <canvas id="chartValutazione"></canvas>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Riepilogo Valutazione</h4>
+                            <div class="data-grid">
+                                <div class="data-card">
+                                    <div class="data-card-label">Prezzo Medio Valutato</div>
+                                    <div class="data-card-value" id="prezzoMedioValutato">-</div>
+                                </div>
+                                <div class="data-card">
+                                    <div class="data-card-label">Valore Minimo</div>
+                                    <div class="data-card-value" id="valoreMinimo">-</div>
+                                </div>
+                                <div class="data-card">
+                                    <div class="data-card-label">Valore Massimo</div>
+                                    <div class="data-card-value" id="valoreMassimo">-</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Data Valutazione</h4>
+                            <div class="data-card">
+                                <div class="data-card-label">Data</div>
+                                <div class="data-card-value" id="dataValutazione">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MAIN TAB 2: RISCHI -->
+            <div id="main-tab-rischi" class="main-tab-content">
+                <!-- SEZIONE IVE (INDICE DI VULNERABILITÀ ECONOMICA) -->
+                <div class="tabs-container">
+                    <div style="background: linear-gradient(135deg, #003d66 0%, #007CB0 100%); color: white; padding: 30px; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <div>
+                                <h3 style="font-size: 20px; margin-bottom: 10px; font-weight: 600;">Indice di Vulnerabilità Economica (IVE)</h3>
+                                <p style="font-size: 13px; opacity: 0.9;">Valore economico totale potenzialmente esposto a rischio naturale</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 40px; font-weight: 700; margin-bottom: 5px;" id="iveTotaleValore">€ -</div>
+                                <div style="font-size: 16px; opacity: 0.95;" id="iveTotalePercentuale">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Risk Summary Cards -->
+                    <div class="section-title">Riepilogo Rischi</div>
+                    <div class="data-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom: 40px;">
+                        <!-- Seismic Risk Card -->
+                        <div class="data-card" style="border-left: 4px solid #D32F2F; position: relative;">
+                            <div style="display: flex; align-items: flex-start; margin-bottom: 20px;">
+                                <div style="font-size: 48px; margin-right: 15px; line-height: 1;">⚠️</div>
+                                <div style="flex: 1;">
+                                    <div class="data-card-label">Pericolosità Sismica</div>
+                                    <div style="font-size: 18px; font-weight: 700; color: #D32F2F; margin-top: 5px;" id="iveClasseSismica">-</div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">
+                                <span style="font-size: 12px; color: #666; font-weight: 600; text-transform: uppercase;">Impatto:</span>
+                                <span style="font-size: 16px; font-weight: 700; margin-left: 8px; color: #D32F2F;" id="iveAgPotenziale">-</span>
+                            </div>
+                            <div style="background: #f8d7da; padding: 15px; border-radius: 6px; text-align: center;">
+                                <div style="font-size: 11px; color: #721c24; margin-bottom: 6px; font-weight: 600; text-transform: uppercase;">Valore economico esposto</div>
+                                <div style="font-size: 24px; font-weight: 700; color: #721c24;" id="iveValoreSismica">€ -</div>
+                            </div>
+                        </div>
+
+                        <!-- Landslide Risk Card -->
+                        <div class="data-card" style="border-left: 4px solid #FF9800; position: relative;">
+                            <div style="display: flex; align-items: flex-start; margin-bottom: 20px;">
+                                <div style="font-size: 48px; margin-right: 15px; line-height: 1;">🏔️</div>
+                                <div style="flex: 1;">
+                                    <div class="data-card-label">Pericolosità Frane</div>
+                                    <div style="font-size: 18px; font-weight: 700; color: #FF9800; margin-top: 5px;" id="iveClasseFrane">-</div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">
+                                <span style="font-size: 12px; color: #666; font-weight: 600; text-transform: uppercase;">Impatto:</span>
+                                <span style="font-size: 16px; font-weight: 700; margin-left: 8px; color: #FF9800;" id="iveImpattoFrane">-</span>
+                            </div>
+                            <div style="background: #fff3cd; padding: 15px; border-radius: 6px; text-align: center;">
+                                <div style="font-size: 11px; color: #856404; margin-bottom: 6px; font-weight: 600; text-transform: uppercase;">Valore economico esposto</div>
+                                <div style="font-size: 24px; font-weight: 700; color: #856404;" id="iveValoreFrane">€ -</div>
+                            </div>
+                        </div>
+
+                        <!-- Flood Risk Card -->
+                        <div class="data-card" style="border-left: 4px solid #007CB0; position: relative;">
+                            <div style="display: flex; align-items: flex-start; margin-bottom: 20px;">
+                                <div style="font-size: 48px; margin-right: 15px; line-height: 1;">🌊</div>
+                                <div style="flex: 1;">
+                                    <div class="data-card-label">Pericolosità Alluvioni</div>
+                                    <div style="font-size: 18px; font-weight: 700; color: #007CB0; margin-top: 5px;" id="iveClasseAlluvioni">-</div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">
+                                <span style="font-size: 12px; color: #666; font-weight: 600; text-transform: uppercase;">Impatto:</span>
+                                <span style="font-size: 16px; font-weight: 700; margin-left: 8px; color: #007CB0;" id="iveImpattoAlluvioni">-</span>
+                            </div>
+                            <div style="background: #d1ecf1; padding: 15px; border-radius: 6px; text-align: center;">
+                                <div style="font-size: 11px; color: #0c5460; margin-bottom: 6px; font-weight: 600; text-transform: uppercase;">Valore economico esposto</div>
+                                <div style="font-size: 24px; font-weight: 700; color: #0c5460;" id="iveValoreAlluvioni">€ -</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analysis Section -->
+                    <div class="section-title">Analisi dell'Indice IVE</div>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Metodologia</h4>
+                        <div class="info-box" id="iveMetodologia">-</div>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Contributi dei Rischi</h4>
+                        <div class="info-box" id="iveContributiRischi">-</div>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Impatto dell'Acclività</h4>
+                        <div class="info-box" id="iveImpattoAcclivita">-</div>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Sintesi e Resilienza Economica</h4>
+                        <div class="info-box" style="background-color: #fff3cd; border-left-color: #FBC02D;" id="iveSintesi">-</div>
+                    </div>
+                </div>
+
+                <!-- SEZIONE ANALISI RISCHI CON SOTTO-TAB -->
+                <div class="tabs-container">
+                    <div class="tabs-header">
+                        <button class="tab-button active" onclick="switchTab(event, 'tab-pendenza')">Pendenza</button>
+                        <button class="tab-button" onclick="switchTab(event, 'tab-alluvione')">Alluvione</button>
+                        <button class="tab-button" onclick="switchTab(event, 'tab-sisma')">Sisma</button>
+                        <button class="tab-button" onclick="switchTab(event, 'tab-frane')">Frane</button>
+                    </div>
+
+                    <!-- TAB: Pendenza -->
+                    <div id="tab-pendenza" class="tab-content active">
+                        <div class="section-title">Pendenza Suolo (Acclività)</div>
+                        
+                        <div class="info-box" id="descrizionePendenza">-</div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Mappa di Localizzazione</h4>
+                            <img id="mappaPendenza" src="" alt="Mappa pendenza" style="width: 100%; max-height: 400px; border-radius: 6px; object-fit: cover; margin-bottom: 20px;">
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;"> </h4>
+                            <div class="data-grid">
+                                <div class="data-card">
+                                    <div class="data-card-label">% Pendenza</div>
+                                    <div class="data-card-value" id="percentualePendenza">-</div>
+                                </div>
+                                <div class="data-card">
+                                    <div class="data-card-label">Classificazione</div>
+                                    <div class="data-card-value" id="classificazionePendenza">-</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Fruibilità</h4>
+                            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                                <div style="flex: 1; background-color: #4CAF50; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Eccellente</div>
+                                <div style="flex: 1; background-color: #8BC34A; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Buona</div>
+                                <div style="flex: 1; background-color: #FFC107; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Moderata</div>
+                                <div style="flex: 1; background-color: #FF9800; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Difficile</div>
+                                <div style="flex: 1; background-color: #F44336; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Critica</div>
+                                <div style="flex: 1; background-color: #9C27B0; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Impraticabile</div>
+                            </div>
+                            <div class="data-card">
+                                <div class="data-card-label">Classificazione Fruibilità</div>
+                                <div class="data-card-value" id="fruibilitaPendenza">-</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Controinddicazioni</h4>
+                            <div class="info-box" id="controinddicazioniPendenza">-</div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Verifiche Suggerite</h4>
+                            <div class="info-box" id="verifichePendenza">-</div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: Alluvione -->
+                    <div id="tab-alluvione" class="tab-content">
+                        <div class="section-title">Pericolosità Alluvioni</div>
+                        
+                        <div class="info-box" id="descrizioneAlluvioni">-</div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Mappa di Localizzazione</h4>
+                            <img id="mappaAlluvioni" src="" alt="Mappa alluvioni" style="width: 100%; max-height: 400px; border-radius: 6px; object-fit: cover; margin-bottom: 20px;">
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;"> </h4>
+                            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                                <div style="flex: 1; background-color: #C8E6C9; padding: 10px; border-radius: 4px; text-align: center; color: #333; font-weight: 600; font-size: 12px;">Nessuna</div>
+                                <div style="flex: 1; background-color: #81D4FA; padding: 10px; border-radius: 4px; text-align: center; color: #333; font-weight: 600; font-size: 12px;">Bassa</div>
+                                <div style="flex: 1; background-color: #1976D2; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Media</div>
+                                <div style="flex: 1; background-color: #D32F2F; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Elevata</div>
+                            </div>
+                            <div class="data-card">
+                                <div class="data-card-label">Livello Pericolosità</div>
+                                <div class="data-card-value" id="livelloAlluvioni">-</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Potenziali Eventi</h4>
+                            <div class="info-box" id="eventiAlluvioni">-</div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Potenziali Danni</h4>
+                            <div class="info-box" id="danniAlluvioni">-</div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Altre Aree Pericolosità nel Raggio di 500m</h4>
+                            <div class="info-box" id="altreAreeAlluvioni">-</div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: Sisma -->
+                    <div id="tab-sisma" class="tab-content">
+                        <div class="section-title">Pericolosità Sismica</div>
+                        
+                        <div class="info-box" id="descrizioneSismica">-</div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Mappa di Localizzazione</h4>
+                            <img id="mappaSismica" src="" alt="Mappa sismica" style="width: 100%; max-height: 400px; border-radius: 6px; object-fit: cover; margin-bottom: 20px;">
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;"> </h4>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <svg id="gaugeChart" width="200" height="200" style="margin-bottom: 20px;"></svg>
+                                    <div class="data-card" style="width: 100%;">
+                                        <div class="data-card-label">AG Potenziale</div>
+                                        <div class="data-card-value" id="agPotenziale">-</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="data-card" style="margin-bottom: 15px;">
+                                        <div class="data-card-label">Classificazione Sismica</div>
+                                        <div class="data-card-value" id="classificazioneSismica">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Potenziali Eventi</h4>
+                            <div class="info-box" id="eventiSismica">-</div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Potenziali Danni</h4>
+                            <div class="info-box" id="danniSismica">-</div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Epicentri Terremoti Accaduti</h4>
+                            <div class="info-box" id="epicentriSismica">-</div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: Frane -->
+                    <div id="tab-frane" class="tab-content">
+                        <div class="section-title">Pericolosità Frane e Storico</div>
+                        
+                        <!-- Sottosezione: Pericolosità Frane -->
+                        <div style="margin-bottom: 40px;">
+                            <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 20px; color: #003d66; border-bottom: 2px solid #86BC25; padding-bottom: 10px;">Pericolosità Frane</h4>
+                            
+                            <div class="info-box" id="descrizioneFrane">-</div>
+
+                            <div style="margin-bottom: 30px;">
+                                <h5 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Mappa di Localizzazione</h5>
+                                <img id="mappaFrane" src="" alt="Mappa frane" style="width: 100%; max-height: 400px; border-radius: 6px; object-fit: cover; margin-bottom: 20px;">
+                            </div>
+
+                            <div style="margin-bottom: 30px;">
+                                <h5 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;"> </h5>
+                                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                                    <div style="flex: 1; background-color: #C8E6C9; padding: 10px; border-radius: 4px; text-align: center; color: #333; font-weight: 600; font-size: 12px;">Assenti</div>
+                                    <div style="flex: 1; background-color: #FFF9C4; padding: 10px; border-radius: 4px; text-align: center; color: #333; font-weight: 600; font-size: 12px;">Aree Attenzione</div>
+                                    <div style="flex: 1; background-color: #FFE082; padding: 10px; border-radius: 4px; text-align: center; color: #333; font-weight: 600; font-size: 12px;">Moderata</div>
+                                    <div style="flex: 1; background-color: #FFB74D; padding: 10px; border-radius: 4px; text-align: center; color: #333; font-weight: 600; font-size: 12px;">Media</div>
+                                    <div style="flex: 1; background-color: #FF7043; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Elevata</div>
+                                    <div style="flex: 1; background-color: #D32F2F; padding: 10px; border-radius: 4px; text-align: center; color: white; font-weight: 600; font-size: 12px;">Molto Elevata</div>
+                                </div>
+                                <div class="data-card">
+                                    <div class="data-card-label">Livello Pericolosità</div>
+                                    <div class="data-card-value" id="livelloFrane">-</div>
+                                </div>
+                            </div>
+
+                            <div style="margin-bottom: 30px;">
+                                <h5 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Potenziali Eventi</h5>
+                                <div class="info-box" id="eventiFrane">-</div>
+                            </div>
+
+                            <div style="margin-bottom: 30px;">
+                                <h5 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Potenziali Danni</h5>
+                                <div class="info-box" id="danniFrane">-</div>
+                            </div>
+
+                            <div style="margin-bottom: 30px;">
+                                <h5 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Altre Aree Pericolosità nel Raggio di 500m</h5>
+                                <div class="info-box" id="altreAreeFrane">-</div>
+                            </div>
+                        </div>
+
+                        <!-- Sottosezione: Storico Frane Accadute -->
+                        <div>
+                            <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 20px; color: #003d66; border-bottom: 2px solid #86BC25; padding-bottom: 10px;">Storico Frane Accadute</h4>
+                            
+                            <div class="info-box" id="descrizioneStoricoFrane">-</div>
+
+                            <div style="margin-bottom: 30px;">
+                                <h5 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Mappa di Localizzazione</h5>
+                                <img id="mappaStoricoFrane" src="" alt="Mappa storico frane" style="width: 100%; max-height: 400px; border-radius: 6px; object-fit: cover; margin-bottom: 20px;">
+                            </div>
+
+                            <div style="margin-bottom: 30px;">
+                                <h5 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Presenti nel Raggio di 500m</h5>
+                                <div class="data-card" style="margin-bottom: 20px;">
+                                    <div class="data-card-label">Numero Eventi Franosi</div>
+                                    <div class="data-card-value" id="numEventiStoricoFrane">-</div>
+                                </div>
+                                <div class="info-box" id="legenda1StoricoFrane" style="background-color: #FFF9C4; border-left-color: #FBC02D; margin-bottom: 15px;">-</div>
+                                <div class="info-box" id="legenda2StoricoFrane" style="background-color: #C8E6C9; border-left-color: #4CAF50;">-</div>
+                            </div>
+
+                            <div style="margin-bottom: 30px;">
+                                <h5 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #003d66;">Dettagli Eventi</h5>
+                                <div class="info-box" id="dettagliStoricoFrane">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MAIN TAB 3: COPERTURE ASSICURATIVE -->
+            <div id="main-tab-coperture" class="main-tab-content">
+                <!-- SEZIONE 1: ANALISI IMMOBILE E CONTESTO -->
+                <div class="tabs-container">
+                    <div class="section-title">Analisi dell'Immobile e del Contesto</div>
+                        <div class="info-box" style="background-color: #f0f7ff; border-left: 4px solid #007CB0; padding: 20px; margin-bottom: 30px;">
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;">L’immobile oggetto di analisi è un appartamento al piano terra di un edificio Signorile dotato di ascensore, ubicata in una zona residenziale ben servita, caratterizzata da una buona accessibilità. </p>
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;">La superficie commerciale dell’immobile è stimata in circa 100 m², con uno stato di conservazione interno discreto efiniture di qualità standard. L’unità immobiliare si sviluppa su un unico livello, con esposizione mista interna/esterna e un numero di affacci principalmente su due lati. La distribuzione degli spazi interni è considerata normale. L’analisi dei valori immobiliari medi rilevati nella zona mostra un prezzo medio di circa 727,31 €/m², in linea con il valore stimato dell’immobile (circa € 72.731). Negli ultimi dodici mesi, il mercato immobiliare locale ha registrato una crescita del 1.6%, segnale di una domanda tendenzialmente stabile.</p> 
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;">Nel complesso, l’immobile si colloca in un contesto residenziale stabile e di buona qualità, con un mercato equilibrato ma con possibili segnali di rallentamento nel medio periodo.</p>
+                        </div>
+                    
+                    <div class="section-title">Analisi Territoriale e di Rischio Geologico</div>
+                        <div class="info-box" style="background-color: #f0f7ff; border-left: 4px solid #007CB0; padding: 20px; margin-bottom: 30px;">
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;">L’immobile si trova in un’area caratterizzata da una leggera pendenza del terreno, compresa tra il 3% e il 6%, che garantisce condizioni ottimali di stabilità sia per la struttura che per le aree esterne. La pendenza contenuta assicura una buona fruibilità e accessibilità dell’area, con un rischio minimo di erosione, sebbene si suggeriscano verifiche strutturali e di manutenzione periodiche per monitorare il drenaggio dell’acqua e la stabilità del suolo.</p> 
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;">Il rischio frane è moderato: l’area presenta possibili fenomeni franosi di bassa intensità in caso di piogge prolungate. Si possono formare rotture superficiali negli edifici, con lievi danni a strutture non portanti. È consigliato un monitoraggio periodico preventivo per prevenire danni maggiori.</p> 
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;">Il rischio sismico è molto elevato, con un’accelerazione al suolo potenziale del 25,49%. Sono possibili eventi sismici di elevata intensità con movimenti rapidi e violenti del terreno, deformazioni evidenti, fenomeni di liquefazione, frane e smottamenti. I danni potenziali includono lesioni profonde nelle strutture portanti, cedimenti delle fondazioni e danni severi alle infrastrutture critiche. È necessario prevedere evacuazioni massive e prolungate in caso di evento sismico.</p>
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;">Il rischio alluvioni è assente: l’area non è soggetta a rischi di allagamento significativo, presenta un buon drenaggio naturale e non è interessata da corsi d’acqua nelle immediate vicinanze. Non si rilevano vulnerabilità idrauliche specifiche, garantendo la sicurezza da fenomeni alluvionali.</p>
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;">Nel complesso, il sito presenta un profilo di rischio complesso, con condizioni favorevoli per la gestione del rischio idraulico e della pendenza, ma con una significativa esposizione al rischio sismico e una moderata attenzione necessaria per la stabilità del terreno in relazione a fenomeni franosi. Si raccomanda un’attenta valutazione strutturale e un piano di monitoraggio continuo per garantire la sicurezza e la valorizzazione dell’investimento immobiliare.</p>
+                        </div>
+                    
+                    <div class="section-title">Considerazioni di Mercato e Valore dell’Immobile</div>
+                        <div class="info-box" style="background-color: #f0f7ff; border-left: 4px solid #007CB0; padding: 20px; margin-bottom: 30px;">
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;">Il mercato immobiliare nel comune di Norcia risulta poco dinamico, con un volume di compravendite residenziali pari allo 0,85% del totale delle abitazioni.</p>
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;">Nonostante la limitata liquidità, i valori immobiliari mostrano una leggera tendenza al rialzo, soprattutto nelle zone centrali, segnale di graduale riattivazione della domanda locale.</p>
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;">La posizione dell’immobile, prossima ai principali servizi e vie di collegamento, ne sostiene l’attrattività e limita il rischio di svalutazione.</p>
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;">Nel complesso, il bene presenta una tenuta patrimoniale media, con un profilo di rischio moderato e un valore coerente con le condizioni del mercato locale.</p>
+                        </div>
+                        
+                    <div class="section-title">Valutazione del Rischio Assicurativo</div>
+                        <div class="info-box" style="background-color: #f0f7ff; border-left: 4px solid #007CB0; padding: 20px; margin-bottom: 30px;">
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;">Dall’analisi complessiva emerge che l’immobile presenta un livello di rischio complessivo moderato.</p> 
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;">Le principali aree di attenzione riguardano: <ul><li>l’esposizione a eventi sismici, i quali possono avere impatti significativi;</li> <li>la presenza di una pericolosità da frana moderata, che pur non rappresentando un rischio elevato, richiede comunque un’attenta valutazione in fase di gestione e manutenzione del bene.</li></ul></p>
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;">Tali elementi suggeriscono di adottare una protezione assicurativa ampia, che includa coperture specifiche per danni da eventi naturali e sismici.</p>
+                        </div>
+
+                    <div class="section-title">Proposta di Copertura</div>
+                        <div class="info-box" style="background-color: #f0f7ff; border-left: 4px solid #007CB0; padding: 20px; margin-bottom: 30px;">
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;">In base all’analisi del profilo di rischio e delle caratteristiche dell’immobile, si propone l’attivazione della polizza  "Protezione Casa e Famiglia”, una soluzione assicurativa modulare e personalizzabile che garantisce una tutela completa del valore patrimoniale dell’abitazione e della sicurezza economica del nucleo familiare.</p>
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;">La polizza consente di combinare liberamente le diverse sezioni di copertura e di adeguarle nel tempo in funzione dell’evoluzione delle esigenze, senza dover rinnovare l’intero contratto.</p> 
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;"><strong>Coperture principali:</strong></p>
+                            <p style="margin-bottom: 15px; line-height: 1.8; font-size: 14px;"><ul><li>Incendio e Altri Danni ai Beni: protezione dell’immobile e del contenuto contro incendio, esplosione, scoppio ed eventi accidentali.</li> <li>Eventi Naturali e Calamità: copertura per danni derivanti da eventi atmosferici intensi, alluvioni, frane o altri fenomeni naturali che possano compromettere la struttura o il contenuto dell’abitazione.</li> <li>Copertura Sismica: garanzia personalizzabile contro i danni da terremoto, con possibilità di modulare massimali e franchigie in base al valore e al livello di rischio sismico dell’immobile.</li> <li>Danni da Acqua: tutela dai danni provocati da perdite accidentali di impianti idrici o da infiltrazioni, anche in aree non classificate a rischio elevato.</li> <li>Assistenza H24 e Responsabilità Civile verso Terzi: servizio di pronto intervento per guasti domestici e protezione per danni involontari causati a terzi o a parti comuni dell’edificio.</li></ul></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            // Dati CSV (simulati)
+            const superficiCaratteristiche = [
+                {immobile_id: 1, via: "Via Circonvallazione", civico: "44", scala: "A", piano: "3", numero_appartamento: "5", interno: "1", superfici_coperte_mq: 100, superfici_scoperte_mq: 0, vani_abitabili: 4, vani_accessori: 0, box_posti_auto: 0, piano_principale: "Piano Terra", esposizione_principale: "Normale", n_affacci: 2, altezza_soffitti: 3.2, grado_luminosita: "Normale", livelli_interni: 1, distribuzione_vani: "Adeguato", stato_conservazione: "Discreto", qualita_rifiniture: "standard", tipo_riscaldamento: "Controllato con contabilizzazione", classe_energetica: "D", vista_aerea_url: "Norcia.png"},
+                {immobile_id: 2, via: "Via Milano", civico: "15", scala: "B", piano: "2", numero_appartamento: "3", interno: "2", superfici_coperte_mq: 85, superfici_scoperte_mq: 15, vani_abitabili: 2, vani_accessori: 1, box_posti_auto: 0, piano_principale: "Piano Terra", esposizione_principale: "Normale", n_affacci: 2, altezza_soffitti: 3.0, grado_luminosita: "Normale", livelli_interni: 1, distribuzione_vani: "Adeguato", stato_conservazione: "Buono", qualita_rifiniture: "Centralizzato", tipo_riscaldamento: "Controllato con contabilizzazione", classe_energetica: "C", vista_aerea_url: "Norcia.png"},
+                {immobile_id: 3, via: "Via Torino", civico: "88", scala: "C", piano: "5", numero_appartamento: "7", interno: "1", superfici_coperte_mq: 120, superfici_scoperte_mq: 30, vani_abitabili: 4, vani_accessori: 3, box_posti_auto: 2, piano_principale: "Piano Terra", esposizione_principale: "Normale", n_affacci: 3, altezza_soffitti: 3.5, grado_luminosita: "Buona", livelli_interni: 2, distribuzione_vani: "Adeguato", stato_conservazione: "Discreto", qualita_rifiniture: "standard", tipo_riscaldamento: "Autonomo", classe_energetica: "E", vista_aerea_url: "Norcia.png"}
+            ];
+
+            const descrizioneData = [
+                {immobile_id: 1, descrizione_immobile: "L'immobile è situato in una posizione centrale della città, in una zona residenziale ben servita da tutti i principali servizi. L'appartamento è composto da due camere da letto, una cucina abitabile, un soggiorno, un bagno e una ripostiglio. La proprietà gode di una buona luminosità naturale grazie alle ampie finestre. Lo stato di conservazione è discreto, con alcuni elementi che potrebbero beneficiare di una ristrutturazione. L'immobile è dotato di riscaldamento centralizzato e dispone di un balcone con vista sulla strada.", foto_edificio_url: "Norcia2.jpg", tipologia_edificio: "Appartamento", ubicazione_edificio: "Centro", eta_edificio: "20-40 anni", stato_edificio: "Buono stato"},
+                {immobile_id: 2, descrizione_immobile: "Appartamento situato in una zona tranquilla e residenziale, facilmente raggiungibile dai principali servizi e dalle vie di comunicazione. L'unità è composta da due camere, una cucina separata, un soggiorno, un bagno e una ripostiglio. La proprietà beneficia di una buona esposizione e di una luminosità naturale adeguata. Lo stato di conservazione è buono, con finiture di qualità. Dispone di riscaldamento autonomo e di un piccolo giardino privato.", foto_edificio_url: "Norcia2.jpg", tipologia_edificio: "Appartamento", ubicazione_edificio: "Periferia", eta_edificio: "15-25 anni", stato_edificio: "Ottimo stato"},
+                {immobile_id: 3, descrizione_immobile: "Ampio appartamento in una zona centrale della città, con accesso a tutti i servizi principali. L'unità è composta da tre camere da letto, una cucina abitabile, un soggiorno, due bagni e una ripostiglio. La proprietà gode di una splendida esposizione e di una luminosità eccellente. Lo stato di conservazione è discreto, con alcuni elementi che potrebbero beneficiare di interventi di manutenzione. Dispone di riscaldamento autonomo e di due balconi con vista panoramica.", foto_edificio_url: "Norcia2.jpg", tipologia_edificio: "Appartamento", ubicazione_edificio: "Centro", eta_edificio: "30-50 anni", stato_edificio: "Discreto stato"}
+            ];
+
+            const mercatoData = [
+                {immobile_id: 1, zona_nome: "Norcia - Piazza Del Duomo", posizione_zona: "Centro", tipologia_prevalente: "Abitazioni tipo economico", stock_residenziale: 150, dinamica_mercato_percentuale: "+1.5%", quotazione_media_residenziale: "€ 72.500", quotazione_media_commerciale: "€ 74.000", quotazione_media_posti_auto: "€ 18.000", andamento_2024_residenziale: "+0.8%", andamento_2024_commerciale: "+1.2%", andamento_2024_posti_auto: "+0.5%", compravendite_residenziali_2024: 41, compravendite_non_residenziali_2024: 32, compravendite_posti_auto_2024: 22},
+                {immobile_id: 2, zona_nome: "Milano - Centro", posizione_zona: "Centro", tipologia_prevalente: "Abitazioni tipo economico", stock_residenziale: 320, dinamica_mercato_percentuale: "-0.5%", quotazione_media_residenziale: "€ 72.500", quotazione_media_commerciale: "€ 74.000", quotazione_media_posti_auto: "€ 18.000", andamento_2024_residenziale: "-0.3%", andamento_2024_commerciale: "+0.2%", andamento_2024_posti_auto: "-0.1%", compravendite_residenziali_2024: 85, compravendite_non_residenziali_2024: 45, compravendite_posti_auto_2024: 35},
+                {immobile_id: 3, zona_nome: "Torino - Centro", posizione_zona: "Centro", tipologia_prevalente: "Abitazioni tipo economico", stock_residenziale: 280, dinamica_mercato_percentuale: "+2.1%", quotazione_media_residenziale: "€ 72.500", quotazione_media_commerciale: "€ 74.000", quotazione_media_posti_auto: "€ 18.000", andamento_2024_residenziale: "+1.8%", andamento_2024_commerciale: "+2.3%", andamento_2024_posti_auto: "+1.5%", compravendite_residenziali_2024: 62, compravendite_non_residenziali_2024: 38, compravendite_posti_auto_2024: 28}
+            ];
+
+            const valutazioneData = [
+                {immobile_id: 1, zona_ricerca: "Piazza Del Duomo Piazza San Benedetto Piazza Palatina Via Roma", criteri_ricerca: "Superfici Mq 85 - Mq 114", periodo_temporale: "Giugno 2023 - Giugno 2025", tipologia_ricerca: "Residenziali", prezzo_medio_valutato: "€ 75.000", valore_min_valutazione: "€ 72.731", valore_max_valutazione: "€ 76.181", metodo_valutazione: "Confronto diretto sul valore medio di mercato degli immobili della stessa tipologia dimensione e localizzazione", fonte_dati: "Banche dati catastali Agenzia delle entrate Ministero dell'Economia e delle Finanze Istat portali immobiliari Database ufficiali OMI", data_valutazione: "13-10-2025", superficie_commerciale_mq: 100, prezzo_medio_mq: "€ 750", comparabili_trovati: 5, note_valutazione: "Valutazione basata su comparabili simili nella zona"},
+                {immobile_id: 2, zona_ricerca: "Milano - Centro", criteri_ricerca: "Superfici Mq 75 - Mq 95", periodo_temporale: "Giugno 2023 - Giugno 2025", tipologia_ricerca: "Residenziali", prezzo_medio_valutato: "€ 435.000", valore_min_valutazione: "€ 420.000", valore_max_valutazione: "€ 450.000", metodo_valutazione: "Confronto diretto sul valore medio di mercato degli immobili della stessa tipologia dimensione e localizzazione", fonte_dati: "Banche dati catastali Agenzia delle entrate Ministero dell'Economia e delle Finanze Istat portali immobiliari Database ufficiali OMI", data_valutazione: "13-10-2025", superficie_commerciale_mq: 85, prezzo_medio_mq: "€ 5.118", comparabili_trovati: 8, note_valutazione: "Valutazione basata su comparabili simili nella zona"},
+                {immobile_id: 3, zona_ricerca: "Torino - Centro", criteri_ricerca: "Superfici Mq 100 - Mq 140", periodo_temporale: "Giugno 2023 - Giugno 2025", tipologia_ricerca: "Residenziali", prezzo_medio_valutato: "€ 520.000", valore_min_valutazione: "€ 495.000", valore_max_valutazione: "€ 545.000", metodo_valutazione: "Confronto diretto sul valore medio di mercato degli immobili della stessa tipologia dimensione e localizzazione", fonte_dati: "Banche dati catastali Agenzia delle entrate Ministero dell'Economia e delle Finanze Istat portali immobiliari Database ufficiali OMI", data_valutazione: "13-10-2025", superficie_commerciale_mq: 120, prezzo_medio_mq: "€ 4.333", comparabili_trovati: 7, note_valutazione: "Valutazione basata su comparabili simili nella zona"}
+            ];
+
+            // Dati Rischi
+            const rischiPendenzaData = [
+                {immobile_id: 1, percentuale_pendenza: "3-6%", classificazione_pendenza: "Leggera Pendenza", fruibilita_classificazione: "Eccellente", controinddicazioni: "Elenco le possibili criticità o problematiche che potrebbero interessare l'edificio e l'area circostante a causa della pendenza del terreno. Include verifiche strutturali impianti e di manutenzione", verifiche_suggerite: "Suggeriscielemento gli aspetti da controllare durante le ispezioni dell'edificio. Considerare condizioni specifiche della pendenza. Include verifiche strutturali impianti e di manutenzione", mappa_url: "pendenza_suolo.png"},
+                {immobile_id: 2, percentuale_pendenza: "3-6%", classificazione_pendenza: "Leggera Pendenza", fruibilita_classificazione: "Buona", controinddicazioni: "Elenco le possibili criticità o problematiche che potrebbero interessare l'edificio e l'area circostante a causa della pendenza del terreno. Include verifiche strutturali impianti e di manutenzione", verifiche_suggerite: "Suggeriscielemento gli aspetti da controllare durante le ispezioni dell'edificio. Considerare condizioni specifiche della pendenza. Include verifiche strutturali impianti e di manutenzione", mappa_url: "pendenza_suolo.png"},
+                {immobile_id: 3, percentuale_pendenza: "3-6%", classificazione_pendenza: "Leggera Pendenza", fruibilita_classificazione: "Moderata", controinddicazioni: "Elenco le possibili criticità o problematiche che potrebbero interessare l'edificio e l'area circostante a causa della pendenza del terreno. Include verifiche strutturali impianti e di manutenzione", verifiche_suggerite: "Suggeriscielemento gli aspetti da controllare durante le ispezioni dell'edificio. Considerare condizioni specifiche della pendenza. Include verifiche strutturali impianti e di manutenzione", mappa_url: "pendenza_suolo.png"}
+            ];
+
+            const rischiAlluvioniData = [
+                {immobile_id: 1, descrizione: "Il grado di pericolosità idraulica è definito in base alla frequenza con cui un'area può essere interessata da eventi alluvionali. L'analisi di questi eventi consente di valutare la capacità di diffusione delle acque e la possibilità di diffusione dei danni", livello_pericolosita: "Nessuna Pericolosità", potenziali_eventi: "Zone non soggette a rischi di oligamento significativo. Area con buon drenaggio naturale e assenza di zone critiche nelle vicinanze", potenziali_danni: "Nessuna limitazione particolare diffuso del territorio per quanto riguarda il rischio idraulico. Attività ordinarie non soggette a interferenze da parte di fenomeni alluvionali. Visibilità e servizi non esposti a criticità idrauliche significative", altre_aree_500m: "P0 Nessuna Pericolosità - Area sicura dal punto di vista idraulico", mappa_url: "alluvioni.png"},
+                {immobile_id: 2, descrizione: "Il grado di pericolosità idraulica è definito in base alla frequenza con cui un'area può essere interessata da eventi alluvionali. L'analisi di questi eventi consente di valutare la capacità di diffusione delle acque e la possibilità di diffusione dei danni", livello_pericolosita: "Bassa Pericolosità", potenziali_eventi: "Zone non soggette a rischi di oligamento significativo. Area con buon drenaggio naturale e assenza di zone critiche nelle vicinanze", potenziali_danni: "Nessuna limitazione particolare diffuso del territorio per quanto riguarda il rischio idraulico. Attività ordinarie non soggette a interferenze da parte di fenomeni alluvionali. Visibilità e servizi non esposti a criticità idrauliche significative", altre_aree_500m: "P0 Nessuna Pericolosità - Area sicura dal punto di vista idraulico", mappa_url: "alluvioni.png"},
+                {immobile_id: 3, descrizione: "Il grado di pericolosità idraulica è definito in base alla frequenza con cui un'area può essere interessata da eventi alluvionali. L'analisi di questi eventi consente di valutare la capacità di diffusione delle acque e la possibilità di diffusione dei danni", livello_pericolosita: "Media Pericolosità", potenziali_eventi: "Zone non soggette a rischi di oligamento significativo. Area con buon drenaggio naturale e assenza di zone critiche nelle vicinanze", potenziali_danni: "Nessuna limitazione particolare diffuso del territorio per quanto riguarda il rischio idraulico. Attività ordinarie non soggette a interferenze da parte di fenomeni alluvionali. Visibilità e servizi non esposti a criticità idrauliche significative", altre_aree_500m: "P0 Nessuna Pericolosità - Area sicura dal punto di vista idraulico", mappa_url: "alluvioni.png"}
+            ];
+
+            const rischiSismicaData = [
+                {immobile_id: 1, descrizione: "La pericolosità sismica indica l'intensità dello scuotimento del suolo attesa in un determinato luogo a causa di un terremoto. Questa misura non è una previsione deterministica (cioè non indica con certezza quando e dove si verificheranno terremoti) ma si basa su analisi probabilistiche. Ciò significa che la pericolosità sismica stima la probabilità che il suolo possa subire un certo livello di scuotimento in un periodo futuro senza indicare un evento specifico", ag_percentuale: "25.49%", classificazione_sismica: "Molto Elevata", potenziali_eventi: "Eventi sismici di elevata intensità con movimenti del suolo rapidi e violenti su aree estremamente vaste. Possibili informazioni evidenti del territorio con fenomeni di liquefazione frane e smottamenti. Scosse prolungate con repliche significative", potenziali_danni: "Danni strutturali gravi e diffusi negli edifici con possibili crolli. Lesioni profonde nelle strutture portanti e cedimenti delle fondazioni. Danneggiamenti severi alle infrastrutture critiche. Rischio elevato per l'incolumità delle persone. Necessari interventi di ricostruzione massivi e prolungati", epicentri_info: "Ultimi 100 anni: 1979, 2016.", mappa_url: "sismica.png"},
+                {immobile_id: 2, descrizione: "La pericolosità sismica indica l'intensità dello scuotimento del suolo attesa in un determinato luogo a causa di un terremoto. Questa misura non è una previsione deterministica (cioè non indica con certezza quando e dove si verificheranno terremoti) ma si basa su analisi probabilistiche. Ciò significa che la pericolosità sismica stima la probabilità che il suolo possa subire un certo livello di scuotimento in un periodo futuro senza indicare un evento specifico", ag_percentuale: "15.32%", classificazione_sismica: "Media", potenziali_eventi: "Eventi sismici di elevata intensità con movimenti del suolo rapidi e violenti su aree estremamente vaste. Possibili informazioni evidenti del territorio con fenomeni di liquefazione frane e smottamenti. Scosse prolungate con repliche significative", potenziali_danni: "Danni strutturali gravi e diffusi negli edifici con possibili crolli. Lesioni profonde nelle strutture portanti e cedimenti delle fondazioni. Danneggiamenti severi alle infrastrutture critiche. Rischio elevato per l'incolumità delle persone. Necessari interventi di ricostruzione massivi e prolungati", epicentri_info: "Ultimi 100 anni: Forte >20 Grado; Marcata >20 Grado; Molto Forte >20 Grado", mappa_url: "sismica.png"},
+                {immobile_id: 3, descrizione: "La pericolosità sismica indica l'intensità dello scuotimento del suolo attesa in un determinato luogo a causa di un terremoto. Questa misura non è una previsione deterministica (cioè non indica con certezza quando e dove si verificheranno terremoti) ma si basa su analisi probabilistiche. Ciò significa che la pericolosità sismica stima la probabilità che il suolo possa subire un certo livello di scuotimento in un periodo futuro senza indicare un evento specifico", ag_percentuale: "18.75%", classificazione_sismica: "Elevata", potenziali_eventi: "Eventi sismici di elevata intensità con movimenti del suolo rapidi e violenti su aree estremamente vaste. Possibili informazioni evidenti del territorio con fenomeni di liquefazione frane e smottamenti. Scosse prolungate con repliche significative", potenziali_danni: "Danni strutturali gravi e diffusi negli edifici con possibili crolli. Lesioni profonde nelle strutture portanti e cedimenti delle fondazioni. Danneggiamenti severi alle infrastrutture critiche. Rischio elevato per l'incolumità delle persone. Necessari interventi di ricostruzione massivi e prolungati", epicentri_info: "Ultimi 100 anni: Forte >20 Grado; Marcata >20 Grado; Molto Forte >20 Grado", mappa_url: "sismica.png"}
+            ];
+
+            const rischiFrameData = [
+                {immobile_id: 1, descrizione: "La pericolosità da frana rappresenta la probabilità di occorrenza di un fenomeno potenzialmente distruttivo di una determinata intensità in un dato periodo e in una data area. Le aree pericolosità da frana includono oltre alle frane già verificatesi anche le zone di possibile evoluzione dei fenomeni e le zone potenzialmente suscettibili a nuovi fenomeni franosi", livello_pericolosita: "Assenti", potenziali_eventi: "Area che non manifesta leggerezza instabilità del terreno. Possibili fenomeni franosi di bassa intensità in caso di piogge prolungate. Potenziali movimenti lenti e graduali del terreno generalmente prevedibili", potenziali_danni: "Nessun danno significativo atteso. Possibili danni lievi e superficiali negli edifici. Lesioni minori nelle strutture. Nessun rischio per l'incolumità delle persone", altre_aree_500m: "Area P1 Moderata - Zone con possibile instabilità minima. Eventuali danni lievi e superficiali", mappa_url: "frane.png"},
+                {immobile_id: 2, descrizione: "La pericolosità da frana rappresenta la probabilità di occorrenza di un fenomeno potenzialmente distruttivo di una determinata intensità in un dato periodo e in una data area. Le aree pericolosità da frana includono oltre alle frane già verificatesi anche le zone di possibile evoluzione dei fenomeni e le zone potenzialmente suscettibili a nuovi fenomeni franosi", livello_pericolosita: "Aree Attenzione", potenziali_eventi: "Area che non manifesta leggerezza instabilità del terreno. Possibili fenomeni franosi di bassa intensità in caso di piogge prolungate. Potenziali movimenti lenti e graduali del terreno generalmente prevedibili", potenziali_danni: "Nessun danno significativo atteso. Possibili danni lievi e superficiali negli edifici. Lesioni minori nelle strutture. Nessun rischio per l'incolumità delle persone", altre_aree_500m: "Area P1 Moderata - Zone con possibile instabilità minima. Eventuali danni lievi e superficiali", mappa_url: "frane.png"},
+                {immobile_id: 3, descrizione: "La pericolosità da frana rappresenta la probabilità di occorrenza di un fenomeno potenzialmente distruttivo di una determinata intensità in un dato periodo e in una data area. Le aree pericolosità da frana includono oltre alle frane già verificatesi anche le zone di possibile evoluzione dei fenomeni e le zone potenzialmente suscettibili a nuovi fenomeni franosi", livello_pericolosita: "Moderata", potenziali_eventi: "Area che non manifesta leggerezza instabilità del terreno. Possibili fenomeni franosi di bassa intensità in caso di piogge prolungate. Potenziali movimenti lenti e graduali del terreno generalmente prevedibili", potenziali_danni: "Nessun danno significativo atteso. Possibili danni lievi e superficiali negli edifici. Lesioni minori nelle strutture. Nessun rischio per l'incolumità delle persone", altre_aree_500m: "Area P1 Moderata - Zone con possibile instabilità minima. Eventuali danni lievi e superficiali", mappa_url: "frane.png"}
+            ];
+
+            const rischiStoricoFrameData = [
+                {immobile_id: 1, descrizione: "Gli eventi franosi sono frane per cui è nota la data di attivazione e che possono rappresentare nuovi fenomeni o riattivazioni di frane già esistenti. Ogni evento può essere georeferito con un punto o un poligono indipendentemente dalle dimensioni della frana e la precisione della localizzazione può variare da esatta fino ad un'approssimazione di 10 km", num_eventi: "1", legenda_evento_1: "Frana con Scivolamento rotazionale traslativo", legenda_evento_2: "Area stabile senza fenomeni di dissesto in atto o potenziali", dettagli_evento: "Evento 1: Frana con Scivolamento rotazionale traslativo - Scivolamento del terreno con possibili danni a strutture e infrastrutture. Necessari interventi di stabilizzazione", mappa_url: "storico_frane.png"},
+                {immobile_id: 2, descrizione: "Gli eventi franosi sono frane per cui è nota la data di attivazione e che possono rappresentare nuovi fenomeni o riattivazioni di frane già esistenti. Ogni evento può essere georeferito con un punto o un poligono indipendentemente dalle dimensioni della frana e la precisione della localizzazione può variare da esatta fino ad un'approssimazione di 10 km", num_eventi: "0", legenda_evento_1: "Nessun evento franoso registrato", legenda_evento_2: "Area stabile senza fenomeni di dissesto in atto o potenziali", dettagli_evento: "Nessun evento franoso registrato nel raggio di 500m", mappa_url: "storico_frane.png"},
+                {immobile_id: 3, descrizione: "Gli eventi franosi sono frane per cui è nota la data di attivazione e che possono rappresentare nuovi fenomeni o riattivazioni di frane già esistenti. Ogni evento può essere georeferito con un punto o un poligono indipendentemente dalle dimensioni della frana e la precisione della localizzazione può variare da esatta fino ad un'approssimazione di 10 km", num_eventi: "2", legenda_evento_1: "Frana con Scivolamento rotazionale traslativo", legenda_evento_2: "Area mal stata interessata da eventi franosi", dettagli_evento: "Evento 1: Frana con Scivolamento rotazionale traslativo - Scivolamento del terreno con possibili danni a strutture e infrastrutture. Evento 2: Area mal stata interessata da eventi franosi", mappa_url: "storico_frane.png"}
+            ];
+
+            // Dati IVE (Indice di Vulnerabilità Economica)
+            const iveData = [
+                {
+                    immobile_id: 1,
+                    valore_immobile: 72731,
+                    pendenza_percentuale: 6,
+                    ive_totale: 27797,
+                    ive_percentuale: 38,
+                    rischio_sismico: {
+                        classificazione: "Molto Elevata",
+                        ag_potenziale: 25.49,
+                        valore_esposto: 18531
+                    },
+                    rischio_frane: {
+                        classificazione: "Moderata",
+                        impatto_percentuale: 13,
+                        valore_esposto: 9265
+                    },
+                    rischio_alluvioni: {
+                        classificazione: "Nulla",
+                        impatto_percentuale: 0,
+                        valore_esposto: 0
+                    },
+                    analisi_testuale: {
+                        metodologia: "L'indice di Vulnerabilità Economica è un indicatore sviluppato tramite un algoritmo proprietario, che combina il valore economico dell'immobile con i parametri di rischiosità connessi all'area geografica certificata dagli enti preposti. L'indice rappresenta il valore immobiliare effettivamente esposto a rischio fisico.",
+                        contributi_rischi: "Il valore dell'IVE, stimato pari a circa 38% del valore economico dell'immobile (corrispondente a una perdita potenziale di circa €27.800), riflette principalmente l'elevata pericolosità sismica dell'area, che rappresenta la componente di rischio prevalente. Il contributo del rischio da movimenti franosi è presente, risultato dell'entità moderata e contribuisce in misura secondaria alla vulnerabilità complessiva. La pericolosità alluvionale, invece, è assente o trascurabile secondo le disposizioni.",
+                        impatto_acclivita: "L'acclività del sito, pari al 6%, determina solo un effetto marginale sull'IVE, comportando un lieve incremento dei costi di manutenzione potenziali e una modesta incidenza sulla valutazione economica dell'immobile.",
+                        sintesi: "In sintesi, l'IVE conferma che la resilienza economica dell'immobile è fortemente condizionata dal rischio sismico, elemento che dovrebbe essere prioritariamente gestito in ogni strategia di mitigazione e protezione patrimoniale."
+                    }
+                },
+                {
+                    immobile_id: 2,
+                    valore_immobile: 435000,
+                    pendenza_percentuale: 2,
+                    ive_totale: 108750,
+                    ive_percentuale: 25,
+                    rischio_sismico: {
+                        classificazione: "Media",
+                        ag_potenziale: 15.32,
+                        valore_esposto: 65250
+                    },
+                    rischio_frane: {
+                        classificazione: "Assenti",
+                        impatto_percentuale: 0,
+                        valore_esposto: 0
+                    },
+                    rischio_alluvioni: {
+                        classificazione: "Bassa",
+                        impatto_percentuale: 5,
+                        valore_esposto: 21750
+                    },
+                    analisi_testuale: {
+                        metodologia: "L'indice di Vulnerabilità Economica è un indicatore sviluppato tramite un algoritmo proprietario, che combina il valore economico dell'immobile con i parametri di rischiosità connessi all'area geografica certificata dagli enti preposti. L'indice rappresenta il valore immobiliare effettivamente esposto a rischio fisico.",
+                        contributi_rischi: "Il valore dell'IVE, stimato pari a circa 25% del valore economico dell'immobile (corrispondente a una perdita potenziale di circa €108.750), riflette principalmente una pericolosità sismica di livello medio. Il contributo del rischio alluvionale è presente ma contenuto, mentre il rischio da frane è assente nell'area di localizzazione dell'immobile.",
+                        impatto_acclivita: "L'acclività del sito, pari al 2%, determina un effetto marginale sull'IVE, con condizioni favorevoli per la stabilità strutturale e bassi costi di manutenzione potenziali.",
+                        sintesi: "In sintesi, l'IVE conferma che la resilienza economica dell'immobile è moderatamente condizionata dal rischio sismico, con una esposizione complessiva inferiore rispetto ad altre aree. La gestione del rischio sismico rimane comunque prioritaria in ogni strategia di protezione patrimoniale."
+                    }
+                },
+                {
+                    immobile_id: 3,
+                    valore_immobile: 520000,
+                    pendenza_percentuale: 8,
+                    ive_totale: 156000,
+                    ive_percentuale: 30,
+                    rischio_sismico: {
+                        classificazione: "Elevata",
+                        ag_potenziale: 18.75,
+                        valore_esposto: 93600
+                    },
+                    rischio_frane: {
+                        classificazione: "Moderata",
+                        impatto_percentuale: 8,
+                        valore_esposto: 41600
+                    },
+                    rischio_alluvioni: {
+                        classificazione: "Media",
+                        impatto_percentuale: 3,
+                        valore_esposto: 15600
+                    },
+                    analisi_testuale: {
+                        metodologia: "L'indice di Vulnerabilità Economica è un indicatore sviluppato tramite un algoritmo proprietario, che combina il valore economico dell'immobile con i parametri di rischiosità connessi all'area geografica certificata dagli enti preposti. L'indice rappresenta il valore immobiliare effettivamente esposto a rischio fisico.",
+                        contributi_rischi: "Il valore dell'IVE, stimato pari a circa 30% del valore economico dell'immobile (corrispondente a una perdita potenziale di circa €156.000), riflette una combinazione di rischi significativi. La pericolosità sismica rappresenta la componente prevalente, seguita da una moderata esposizione al rischio franoso e una media pericolosità alluvionale. Questi fattori combinati determinano un'esposizione economica complessiva rilevante.",
+                        impatto_acclivita: "L'acclività del sito, pari all'8%, determina un effetto più significativo sull'IVE rispetto ad altre aree, comportando un incremento dei costi di manutenzione potenziali e una maggiore incidenza sulla valutazione economica dell'immobile, specialmente in relazione al rischio franoso.",
+                        sintesi: "In sintesi, l'IVE conferma che la resilienza economica dell'immobile è fortemente condizionata da una combinazione di rischi naturali, con il rischio sismico come elemento prevalente. Una strategia di mitigazione e protezione patrimoniale deve affrontare prioritariamente il rischio sismico, seguito da interventi di stabilizzazione per il rischio franoso."
+                    }
+                }
+            ];
+
+            // Funzione per ottenere l'ID immobile
+            function getImmobileId() {
+                const immobileData = JSON.parse(sessionStorage.getItem('immobileData'));
+                if (immobileData && immobileData.immobile_id) {
+                    return immobileData.immobile_id;
+                }
+                return 1; // default
+            }
+
+            // Funzione per caricare i dati
+            function loadData() {
+                const immobileId = getImmobileId();
+                const immobileData = JSON.parse(sessionStorage.getItem('immobileData'));
+
+                // Carica dati superfici
+                const superfici = superficiCaratteristiche.find(s => s.immobile_id === immobileId);
+                if (superfici && immobileData) {
+                    const via = immobileData.via || '';
+                    const civico = immobileData.civico || '';
+                    const cap = immobileData.cap || '';
+                    const citta = immobileData.citta || '';
+                    const scala = immobileData.scala || '';
+                    const piano = immobileData.piano || '';
+                    const numeroAppartamento = immobileData.numeroAppartamento || '';
+                    const interno = immobileData.interno || '';
+                    
+                    let indirizzoCompleto = via;
+                    if (civico) indirizzoCompleto += ', ' + civico;
+                    if (cap || citta) indirizzoCompleto += ' - ';
+                    if (cap) indirizzoCompleto += cap;
+                    if (citta) indirizzoCompleto += ' ' + citta;
+                    
+                    let identificativoAppartamento = '';
+                    if (scala) identificativoAppartamento += 'Scala ' + scala;
+                    if (piano) identificativoAppartamento += (identificativoAppartamento ? ', ' : '') + 'Piano ' + piano;
+                    if (numeroAppartamento) identificativoAppartamento += (identificativoAppartamento ? ', ' : '') + 'Apt. ' + numeroAppartamento;
+                    if (interno) identificativoAppartamento += (identificativoAppartamento ? ', ' : '') + 'Interno ' + interno;
+                    
+                    document.getElementById('indirizzoCompleto').textContent = indirizzoCompleto.trim();
+                    document.getElementById('detailAppartamento').textContent = identificativoAppartamento.trim() || '-';
+                    
+                    document.getElementById('superficiCoperte').textContent = `${superfici.superfici_coperte_mq} m²`;
+                    document.getElementById('superficiScoperte').textContent = `${superfici.superfici_scoperte_mq} m²`;
+                    document.getElementById('vaniAbitabili').textContent = superfici.vani_abitabili;
+                    document.getElementById('vaniAccessori').textContent = superfici.vani_accessori;
+                    document.getElementById('boxPostiAuto').textContent = superfici.box_posti_auto;
+                    
+                    document.getElementById('pianoPrincipale').textContent = superfici.piano_principale;
+                    document.getElementById('ascensore').textContent = "Assente";
+                    document.getElementById('esposizionePrincipale').textContent = superfici.esposizione_principale;
+                    document.getElementById('nAffacci').textContent = superfici.n_affacci;
+                    document.getElementById('altezzaSoffitti').textContent = `${superfici.altezza_soffitti} m`;
+                    document.getElementById('gradoLuminosita').textContent = superfici.grado_luminosita;
+                    document.getElementById('livelliInterni').textContent = superfici.livelli_interni;
+                    document.getElementById('distribuzioneVani').textContent = superfici.distribuzione_vani;
+                    document.getElementById('statoConservazione').textContent = superfici.stato_conservazione;
+                    document.getElementById('qualitaRifiniture').textContent = superfici.qualita_rifiniture;
+                    document.getElementById('tipoRiscaldamento').textContent = superfici.tipo_riscaldamento;
+                    document.getElementById('classeEnergetica').textContent = superfici.classe_energetica;
+                    document.getElementById('vistAereaImg').src = superfici.vista_aerea_url;
+                }
+
+                // Carica dati descrizione
+                const descrizione = descrizioneData.find(d => d.immobile_id === immobileId);
+                if (descrizione) {
+                    document.getElementById('descrizioneImmobile').textContent = descrizione.descrizione_immobile;
+                    document.getElementById('fotoEdificio').src = descrizione.foto_edificio_url;
+                    document.getElementById('tipologiaEdificio').textContent = descrizione.tipologia_edificio;
+                    document.getElementById('ubicazioneEdificio').textContent = descrizione.ubicazione_edificio;
+                    document.getElementById('etaEdificio').textContent = descrizione.eta_edificio;
+                    document.getElementById('statoEdificio').textContent = descrizione.stato_edificio;
+                }
+
+                // Carica dati mercato
+                const mercato = mercatoData.find(m => m.immobile_id === immobileId);
+                if (mercato) {
+                    document.getElementById('zonaNome').textContent = mercato.zona_nome;
+                    document.getElementById('posizioneZona').textContent = mercato.posizione_zona;
+                    document.getElementById('tipologiaPrevalente').textContent = mercato.tipologia_prevalente;
+                    document.getElementById('stockResidenziale').textContent = mercato.stock_residenziale;
+                    document.getElementById('dinamicaMercato').textContent = mercato.dinamica_mercato_percentuale;
+                    document.getElementById('quotazioneMediaResidenziale').textContent = mercato.quotazione_media_residenziale;
+                    document.getElementById('quotazioneMediaCommerciale').textContent = mercato.quotazione_media_commerciale;
+                    document.getElementById('quotazioneMediaPostiAuto').textContent = mercato.quotazione_media_posti_auto;
+                    document.getElementById('andamento2024Residenziale').textContent = mercato.andamento_2024_residenziale;
+                    document.getElementById('andamento2024Commerciale').textContent = mercato.andamento_2024_commerciale;
+                    document.getElementById('andamento2024PostiAuto').textContent = mercato.andamento_2024_posti_auto;
+                    document.getElementById('compravenditeResidenziali').textContent = mercato.compravendite_residenziali_2024;
+                    document.getElementById('compravenditeNonResidenziali').textContent = mercato.compravendite_non_residenziali_2024;
+                    document.getElementById('compravenditePostiAuto').textContent = mercato.compravendite_posti_auto_2024;
+
+                    createCharts(mercato);
+                }
+
+                // Carica dati valutazione
+                const valutazione = valutazioneData.find(v => v.immobile_id === immobileId);
+                if (valutazione) {
+                    document.getElementById('areaRicerca').textContent = valutazione.zona_ricerca;
+                    document.getElementById('criteriRicerca').textContent = valutazione.criteri_ricerca;
+                    document.getElementById('periodoTemporale').textContent = valutazione.periodo_temporale;
+                    document.getElementById('comparabiliTrovati').textContent = valutazione.comparabili_trovati;
+                    document.getElementById('noteValutazione').textContent = valutazione.note_valutazione;
+                    document.getElementById('metodoValutazione').textContent = valutazione.metodo_valutazione;
+                    document.getElementById('fonteDati').textContent = valutazione.fonte_dati;
+                    document.getElementById('superficieCommerciale').textContent = `${valutazione.superficie_commerciale_mq} m²`;
+                    document.getElementById('prezzoMedioMq').textContent = valutazione.prezzo_medio_mq;
+                    document.getElementById('prezzoMedioValutato').textContent = valutazione.prezzo_medio_valutato;
+                    document.getElementById('valoreMinimo').textContent = valutazione.valore_min_valutazione;
+                    document.getElementById('valoreMassimo').textContent = valutazione.valore_max_valutazione;
+                    document.getElementById('dataValutazione').textContent = valutazione.data_valutazione;
+
+                    createValutazioneChart(valutazione);
+                }
+
+                // Carica dati rischi
+                loadRischiData();
+
+                // Carica dati IVE
+                loadIVEData();
+            }
+
+            // Funzione per caricare i dati IVE
+            function loadIVEData() {
+                const immobileId = getImmobileId();
+                const ive = iveData.find(i => i.immobile_id === immobileId);
+
+                if (ive) {
+                    // Carica header IVE
+                    document.getElementById('iveTotaleValore').textContent = 
+                        `€ ${ive.ive_totale.toLocaleString('it-IT')}`;
+                    document.getElementById('iveTotalePercentuale').textContent = 
+                        `${ive.ive_percentuale}% del valore immobile`;
+
+                    // Carica dati rischio sismico
+                    document.getElementById('iveClasseSismica').textContent = 
+                        ive.rischio_sismico.classificazione;
+                    document.getElementById('iveAgPotenziale').textContent = 
+                        `${ive.rischio_sismico.ag_potenziale}%`;
+                    document.getElementById('iveValoreSismica').textContent = 
+                        `€ ${ive.rischio_sismico.valore_esposto.toLocaleString('it-IT')}`;
+
+                    // Carica dati rischio frane
+                    document.getElementById('iveClasseFrane').textContent = 
+                        ive.rischio_frane.classificazione;
+                    document.getElementById('iveImpattoFrane').textContent = 
+                        `${ive.rischio_frane.impatto_percentuale}%`;
+                    document.getElementById('iveValoreFrane').textContent = 
+                        `€ ${ive.rischio_frane.valore_esposto.toLocaleString('it-IT')}`;
+
+                    // Carica dati rischio alluvioni
+                    document.getElementById('iveClasseAlluvioni').textContent = 
+                        ive.rischio_alluvioni.classificazione;
+                    document.getElementById('iveImpattoAlluvioni').textContent = 
+                        `${ive.rischio_alluvioni.impatto_percentuale}%`;
+                    document.getElementById('iveValoreAlluvioni').textContent = 
+                        `€ ${ive.rischio_alluvioni.valore_esposto.toLocaleString('it-IT')}`;
+
+                    // Carica analisi testuale
+                    document.getElementById('iveMetodologia').textContent = 
+                        ive.analisi_testuale.metodologia;
+                    document.getElementById('iveContributiRischi').textContent = 
+                        ive.analisi_testuale.contributi_rischi;
+                    document.getElementById('iveImpattoAcclivita').textContent = 
+                        ive.analisi_testuale.impatto_acclivita;
+                    document.getElementById('iveSintesi').textContent = 
+                        ive.analisi_testuale.sintesi;
+                }
+            }
+
+            // Funzione per caricare i dati rischi
+            function loadRischiData() {
+                const immobileId = getImmobileId();
+
+                // Carica dati pendenza
+                const pendenza = rischiPendenzaData.find(p => p.immobile_id === immobileId);
+                if (pendenza) {
+                    document.getElementById('descrizionePendenza').textContent = "La pendenza del terreno su cui sorge lo stabile rappresenta un elemento fondamentale per la sua stabilità nel tempo. Un suolo con pendenza contenuta garantisce condizioni ottimali sia per la struttura che per le aree esterne mentre acclività più marcate possono comportare necessità di monitoraggi e manutenzioni specifiche. L'analisi di questo parametro permette di valutare potenziali criticità e pianificare eventuali interventi preventivi per la conservazione del bene.";
+                    document.getElementById('mappaPendenza').src = pendenza.mappa_url;
+                    document.getElementById('percentualePendenza').textContent = pendenza.percentuale_pendenza;
+                    document.getElementById('classificazionePendenza').textContent = pendenza.classificazione_pendenza;
+                    document.getElementById('fruibilitaPendenza').textContent = pendenza.fruibilita_classificazione;
+                    document.getElementById('controinddicazioniPendenza').textContent = pendenza.controinddicazioni;
+                    document.getElementById('verifichePendenza').textContent = pendenza.verifiche_suggerite;
+                }
+
+                // Carica dati alluvioni
+                const alluvioni = rischiAlluvioniData.find(a => a.immobile_id === immobileId);
+                if (alluvioni) {
+                    document.getElementById('descrizioneAlluvioni').textContent = alluvioni.descrizione;
+                    document.getElementById('mappaAlluvioni').src = alluvioni.mappa_url;
+                    document.getElementById('livelloAlluvioni').textContent = alluvioni.livello_pericolosita;
+                    document.getElementById('eventiAlluvioni').textContent = alluvioni.potenziali_eventi;
+                    document.getElementById('danniAlluvioni').textContent = alluvioni.potenziali_danni;
+                    document.getElementById('altreAreeAlluvioni').textContent = alluvioni.altre_aree_500m;
+                }
+
+                // Carica dati sismica
+                const sismica = rischiSismicaData.find(s => s.immobile_id === immobileId);
+                if (sismica) {
+                    document.getElementById('descrizioneSismica').textContent = sismica.descrizione;
+                    document.getElementById('mappaSismica').src = sismica.mappa_url;
+                    document.getElementById('agPotenziale').textContent = sismica.ag_percentuale;
+                    document.getElementById('classificazioneSismica').textContent = sismica.classificazione_sismica;
+                    document.getElementById('eventiSismica').textContent = sismica.potenziali_eventi;
+                    document.getElementById('danniSismica').textContent = sismica.potenziali_danni;
+                    document.getElementById('epicentriSismica').textContent = sismica.epicentri_info;
+
+                    createGaugeSismica(parseFloat(sismica.ag_percentuale));
+                }
+
+                // Carica dati frane
+                const frane = rischiFrameData.find(f => f.immobile_id === immobileId);
+                if (frane) {
+                    document.getElementById('descrizioneFrane').textContent = frane.descrizione;
+                    document.getElementById('mappaFrane').src = frane.mappa_url;
+                    document.getElementById('livelloFrane').textContent = frane.livello_pericolosita;
+                    document.getElementById('eventiFrane').textContent = frane.potenziali_eventi;
+                    document.getElementById('danniFrane').textContent = frane.potenziali_danni;
+                    document.getElementById('altreAreeFrane').textContent = frane.altre_aree_500m;
+                }
+
+                // Carica dati storico frane
+                const storicoFrane = rischiStoricoFrameData.find(sf => sf.immobile_id === immobileId);
+                if (storicoFrane) {
+                    document.getElementById('descrizioneStoricoFrane').textContent = storicoFrane.descrizione;
+                    document.getElementById('mappaStoricoFrane').src = storicoFrane.mappa_url;
+                    document.getElementById('numEventiStoricoFrane').textContent = storicoFrane.num_eventi;
+                    document.getElementById('legenda1StoricoFrane').textContent = storicoFrane.legenda_evento_1;
+                    document.getElementById('legenda2StoricoFrane').textContent = storicoFrane.legenda_evento_2;
+                    document.getElementById('dettagliStoricoFrane').textContent = storicoFrane.dettagli_evento;
+                }
+            }
+
+            // Funzione per creare i grafici
+            function createCharts(mercato) {
+                const ctxRes = document.getElementById('chartResidenziale').getContext('2d');
+                new Chart(ctxRes, {
+                    type: 'line',
+                    data: {
+                        labels: ['2021', '2022', '2023', '2024', '2025'],
+                        datasets: [{
+                            label: 'Quotazione Media Residenziale',
+                            data: [68000, 69500, 70800, 71500, 72500],
+                            borderColor: '#86BC25',
+                            backgroundColor: 'rgba(134, 188, 37, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: true }
+                        },
+                        scales: {
+                            y: { beginAtZero: false }
+                        }
+                    }
+                });
+
+                const ctxCom = document.getElementById('chartCommerciale').getContext('2d');
+                new Chart(ctxCom, {
+                    type: 'line',
+                    data: {
+                        labels: ['2021', '2022', '2023', '2024', '2025'],
+                        datasets: [{
+                            label: 'Quotazione Media Commerciale',
+                            data: [70000, 71500, 72800, 73400, 74000],
+                            borderColor: '#007CB0',
+                            backgroundColor: 'rgba(0, 124, 176, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: true }
+                        },
+                        scales: {
+                            y: { beginAtZero: false }
+                        }
+                    }
+                });
+
+                const ctxAuto = document.getElementById('chartPostiAuto').getContext('2d');
+                new Chart(ctxAuto, {
+                    type: 'line',
+                    data: {
+                        labels: ['2021', '2022', '2023', '2024', '2025'],
+                        datasets: [{
+                            label: 'Quotazione Media Posti Auto',
+                            data: [16500, 17000, 17500, 17800, 18000],
+                            borderColor: '#86BC25',
+                            backgroundColor: 'rgba(134, 188, 37, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: true }
+                        },
+                        scales: {
+                            y: { beginAtZero: false }
+                        }
+                    }
+                });
+            }
+
+            // Funzione per creare il grafico di valutazione
+            function createValutazioneChart(valutazione) {
+                const minVal = parseInt(valutazione.valore_min_valutazione.replace(/[^0-9]/g, ''));
+                const medVal = parseInt(valutazione.prezzo_medio_valutato.replace(/[^0-9]/g, ''));
+                const maxVal = parseInt(valutazione.valore_max_valutazione.replace(/[^0-9]/g, ''));
+
+                const ctx = document.getElementById('chartValutazione').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Valore Minimo', 'Prezzo Medio', 'Valore Massimo'],
+                        datasets: [{
+                            label: 'Valutazione (€)',
+                            data: [minVal, medVal, maxVal],
+                            backgroundColor: ['#e8f4f8', '#86BC25', '#007CB0'],
+                            borderColor: ['#007CB0', '#86BC25', '#007CB0'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: true }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+            // Funzione per creare gauge SVG sismica
+            function createGaugeSismica(percentage) {
+                const svg = document.getElementById('gaugeChart');
+                svg.innerHTML = '';
+                const radius = 80;
+                const centerX = 100;
+                const centerY = 100;
+
+                let color = '#4CAF50';
+                if (percentage > 20) color = '#D32F2F';
+                else if (percentage > 15) color = '#FF9800';
+                else if (percentage > 10) color = '#FFC107';
+
+                const startAngle = -Math.PI / 2;
+                const endAngle = Math.PI / 2;
+                const angle = startAngle + (endAngle - startAngle) * (percentage / 30);
+
+                const bgPath = `M ${centerX} ${centerY} L ${centerX + radius * Math.cos(startAngle)} ${centerY + radius * Math.sin(startAngle)} A ${radius} ${radius} 0 1 1 ${centerX + radius * Math.cos(endAngle)} ${centerY + radius * Math.sin(endAngle)} Z`;
+                const bgElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                bgElement.setAttribute('d', bgPath);
+                bgElement.setAttribute('fill', '#e0e0e0');
+                svg.appendChild(bgElement);
+
+                const colorPath = `M ${centerX} ${centerY} L ${centerX + radius * Math.cos(startAngle)} ${centerY + radius * Math.sin(startAngle)} A ${radius} ${radius} 0 ${angle > startAngle + Math.PI ? 1 : 0} 1 ${centerX + radius * Math.cos(angle)} ${centerY + radius * Math.sin(angle)} Z`;
+                const colorElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                colorElement.setAttribute('d', colorPath);
+                colorElement.setAttribute('fill', color);
+                svg.appendChild(colorElement);
+
+                const needleX = centerX + (radius - 20) * Math.cos(angle);
+                const needleY = centerY + (radius - 20) * Math.sin(angle);
+                const needle = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                needle.setAttribute('x1', centerX);
+                needle.setAttribute('y1', centerY);
+                needle.setAttribute('x2', needleX);
+                needle.setAttribute('y2', needleY);
+                needle.setAttribute('stroke', '#333');
+                needle.setAttribute('stroke-width', '3');
+                svg.appendChild(needle);
+
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', centerX);
+                circle.setAttribute('cy', centerY);
+                circle.setAttribute('r', '8');
+                circle.setAttribute('fill', '#333');
+                svg.appendChild(circle);
+
+                const labels = ['0', '10', '20', '30'];
+                const labelAngles = [startAngle, startAngle + (endAngle - startAngle) / 3, startAngle + 2 * (endAngle - startAngle) / 3, endAngle];
+                labels.forEach((label, i) => {
+                    const labelX = centerX + (radius + 15) * Math.cos(labelAngles[i]);
+                    const labelY = centerY + (radius + 15) * Math.sin(labelAngles[i]);
+                    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    text.setAttribute('x', labelX);
+                    text.setAttribute('y', labelY);
+                    text.setAttribute('text-anchor', 'middle');
+                    text.setAttribute('dominant-baseline', 'middle');
+                    text.setAttribute('font-size', '12');
+                    text.setAttribute('fill', '#333');
+                    text.textContent = label;
+                    svg.appendChild(text);
+                });
+            }
+
+            // Funzione per switchare main tab
+            function switchMainTab(event, tabId) {
+                event.preventDefault();
+                
+                const mainTabs = document.querySelectorAll('.main-tab-content');
+                mainTabs.forEach(tab => tab.classList.remove('active'));
+                
+                const mainButtons = document.querySelectorAll('.main-tab-button');
+                mainButtons.forEach(btn => btn.classList.remove('active'));
+                
+                document.getElementById(tabId).classList.add('active');
+                event.target.classList.add('active');
+            }
+
+            // Funzione per switchare tab
+            function switchTab(event, tabId) {
+                event.preventDefault();
+                
+                const tabs = document.querySelectorAll('.tab-content');
+                tabs.forEach(tab => tab.classList.remove('active'));
+                
+                const buttons = event.target.parentElement.querySelectorAll('.tab-button');
+                buttons.forEach(btn => btn.classList.remove('active'));
+                
+                document.getElementById(tabId).classList.add('active');
+                event.target.classList.add('active');
+            }
+
+            // Funzione per switchare sub-tab
+            function switchSubTab(event, tabId) {
+                event.preventDefault();
+                
+                const tabs = document.querySelectorAll('.sub-tab-content');
+                tabs.forEach(tab => tab.classList.remove('active'));
+                
+                const buttons = event.target.parentElement.querySelectorAll('.sub-tab-button');
+                buttons.forEach(btn => btn.classList.remove('active'));
+                
+                document.getElementById(tabId).classList.add('active');
+                event.target.classList.add('active');
+            }
+
+            // Carica i dati al caricamento della pagina
+            window.addEventListener('load', loadData);
+    </script>
+</body>
+</html>

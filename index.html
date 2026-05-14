@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valutazione Immobili - Deloitte</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #86BC25 0%, #007CB0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 420px;
+            padding: 50px 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #86BC25;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #666666;
+            font-weight: 400;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333333;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #d0d0d0;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background-color: #f9f9f9;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #86BC25;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(134, 188, 37, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #86BC25 0%, #007CB0 100%);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(134, 188, 37, 0.3);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            display: none;
+            background-color: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            border-left: 4px solid #c33;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: #999999;
+        }
+
+        .footer a {
+            color: #86BC25;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #e0e0e0;
+            margin: 30px 0;
+        }
+
+        .demo-note {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="header">
+            <div class="logo">Deloitte<span>.</span></div>
+            <div class="subtitle">Valutazione Immobili & Coperture Assicurative</div>
+        </div>
+
+        <form id="loginForm">
+            <div class="error-message" id="errorMessage"></div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    placeholder="nome@azienda.it" 
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    placeholder="••••••••" 
+                    required
+                >
+            </div>
+
+            <button type="submit" class="login-btn">Accedi</button>
+        </form>
+
+        <div class="divider"></div>
+
+        <div class="footer">
+            <p>© 2026 Deloitte. Tutti i diritti riservati.</p>
+            <p style="margin-top: 8px;">
+                <a href="#">Privacy Policy</a> | <a href="#">Termini di Servizio</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const errorMessage = document.getElementById('errorMessage');
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Validazione base
+            if (!emailInput.value.trim()) {
+                showError('Inserisci un\'email valida');
+                return;
+            }
+
+            if (!passwordInput.value.trim()) {
+                showError('Inserisci una password');
+                return;
+            }
+
+            // Simulazione login (in demo mode, qualsiasi credenziale funziona)
+            errorMessage.classList.remove('show');
+            
+            // Salva i dati di sessione
+            sessionStorage.setItem('userEmail', emailInput.value);
+            sessionStorage.setItem('isLoggedIn', 'true');
+
+            // Reindirizza alla pagina successiva
+            window.location.href = 'search.html';
+        });
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');
+        }
+
+        // Pulisci il messaggio di errore quando l'utente inizia a digitare
+        emailInput.addEventListener('input', function() {
+            errorMessage.classList.remove('show');
+        });
+
+        passwordInput.addEventListener('input', function() {
+            errorMessage.classList.remove('show');
+        });
+    </script>
+</body>
+</html>
