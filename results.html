@@ -34,10 +34,6 @@
             margin: 0 auto;
         }
 
-        .header-logo {
-            display: none;
-        }
-
         .header-title {
             font-size: 28px;
             font-weight: 600;
@@ -170,7 +166,7 @@
             display: block;
         }
 
-        /* TAB SECONDARI (dentro Immobile) */
+        /* TAB SECONDARI */
         .tabs-container {
             background: white;
             border-radius: 8px;
@@ -278,92 +274,6 @@
             color: #000000;
         }
 
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        .data-table thead {
-            background-color: #003d66;
-            color: white;
-        }
-
-        .data-table th {
-            padding: 12px;
-            text-align: left;
-            font-size: 13px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .data-table td {
-            padding: 12px;
-            border-bottom: 1px solid #e0e0e0;
-            font-size: 14px;
-        }
-
-        .data-table tbody tr:hover {
-            background-color: #f9f9f9;
-        }
-
-        .chart-container {
-            position: relative;
-            height: 300px;
-            margin-bottom: 30px;
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 6px;
-        }
-
-        .info-box {
-            background-color: #f0f7ff;
-            border-left: 4px solid #007CB0;
-            padding: 16px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            font-size: 13px;
-            color: #333333;
-            line-height: 1.6;
-        }
-
-        .info-box strong {
-            color: #007CB0;
-        }
-
-        .value-highlight {
-            background-color: #fff3cd;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-weight: 600;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .status-positive {
-            background-color: #d4edda;
-            color: #155724;
-        }
-
-        .status-neutral {
-            background-color: #e2e3e5;
-            color: #383d41;
-        }
-
-        .status-negative {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-
         .sub-tabs {
             display: flex;
             gap: 10px;
@@ -403,6 +313,125 @@
             display: block;
         }
 
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 30px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 6px;
+        }
+
+        /* SEZIONE PULSANTI */
+        .button-group {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-start;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #86BC25 0%, #007CB0 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(134, 188, 37, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background-color: #e8e8e8;
+            color: #333333;
+        }
+
+        .btn-secondary:hover {
+            background-color: #d8d8d8;
+        }
+
+        /* Form Card Style */
+        .form-card {
+            background: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        /* MODALE (STILI GLOBALI - Fuori dalla media query per vederli ovunque) */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .modal-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 15px;
+        }
+
+        .modal-message {
+            font-size: 14px;
+            color: #666666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .modal-buttons .btn {
+            flex: 1;
+        }
+
+        /* MEDIA QUERY PER MOBILE (Chiusa correttamente) */
         @media (max-width: 768px) {
             .tabs-header {
                 flex-wrap: wrap;
@@ -415,14 +444,10 @@
                 font-size: 12px;
             }
 
-            .data-grid {
+            .data-grid, .immobile-details {
                 grid-template-columns: 1fr;
             }
-
-            .immobile-details {
-                grid-template-columns: 1fr;
-            }
-        }
+        } /* <-- LA PARENTESI MANCANTE ERA QUI */
     </style>
 </head>
 <body>
@@ -448,6 +473,15 @@
                 </div>
                 <div class="detail-item">
                     <span class="detail-label"> </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-card">
+            <div class="immobile-header" id="immobileHeader">
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary" id="downloadVisuraBtn">Scarica Visura</button>
+                    <button type="submit" class="btn btn-primary" id="downloadPlanimetriaBtn">Scarica Planimetria</button>
                 </div>
             </div>
         </div>
@@ -1222,6 +1256,19 @@
                 </div>
             </div>
         </div>
+
+        <!-- STRUTTURA DEL MODALE (MESSAGGIO DI AVVISO) -->
+        <div class="modal-overlay" id="downloadModal">
+            <div class="modal-content">
+                <div class="modal-icon">📄</div>
+                <div class="modal-title" id="modalTitle">Conferma Download</div>
+                <div class="modal-message" id="modalMessage">Stai per scaricare il documento selezionato. Vuoi procedere?</div>
+                <div class="modal-buttons">
+                    <button class="btn btn-secondary" id="cancelDownloadBtn">Annulla</button>
+                    <button class="btn btn-primary" id="confirmDownloadBtn">Scarica</button>
+                </div>
+            </div>
+        </div>
         <script>
             // Dati CSV (simulati)
             const superficiCaratteristiche = [
@@ -1821,6 +1868,71 @@
 
             // Carica i dati al caricamento della pagina
             window.addEventListener('load', loadData);
+
+            // Riferimenti agli elementi del Modale
+            const modal = document.getElementById('downloadModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+            const cancelBtn = document.getElementById('cancelDownloadBtn');
+            const confirmBtn = document.getElementById('confirmDownloadBtn');
+
+            let currentDownloadType = '';
+
+            // Click su Scarica Planimetria
+            document.getElementById('downloadPlanimetriaBtn').addEventListener('click', () => {
+                modalTitle.innerText = "Download Planimetria";
+                // Usa innerHTML qui sotto:
+                modalMessage.innerHTML = "Il download della planimetria <strong>porterà ad un addebito diretto del costo pattuito per questo documento</strong>. Confermi l'operazione?";
+                currentDownloadType = 'planimetria';
+                modal.classList.add('show');
+            });
+
+            // Click su Scarica Visura
+            document.getElementById('downloadVisuraBtn').addEventListener('click', () => {
+                modalTitle.innerText = "Download Visura";
+                // Usa innerHTML qui sotto (se vorrai aggiungere grassetti anche qui):
+                modalMessage.innerHTML = "Stai per scaricare la visura catastale aggiornata. Confermi?";
+                currentDownloadType = 'visura';
+                modal.classList.add('show');
+            });
+
+            // Click su Annulla chiude il modale
+            cancelBtn.addEventListener('click', () => {
+                modal.classList.remove('show');
+            });
+
+            // Click su Conferma esegue l'azione di download
+            confirmBtn.addEventListener('click', () => {
+                modal.classList.remove('show');
+                
+                let fileUrl = '';
+                let fileName = '';
+
+                if (currentDownloadType === 'planimetria') {
+                    fileUrl = '/planimetria.pdf'; // Il percorso partendo dalla radice
+                    fileName = 'planimetria.pdf';  // Nome che prenderà il file scaricato
+                } else if (currentDownloadType === 'visura') {
+                    fileUrl = '/visura.pdf';
+                    fileName = 'visura.pdf';
+                }
+
+                if (fileUrl) {
+                    // Creiamo un elemento "a" temporaneo nell'HTML
+                    const link = document.createElement('a');
+                    link.href = fileUrl;
+                    link.download = fileName; // Forza il download invece dell'apertura
+                    document.body.appendChild(link);
+                    link.click();             // Simula il click dell'utente
+                    document.body.removeChild(link); // Rimuove l'elemento temporaneo
+                }
+            });
+
+            // Chiude il modale cliccando fuori dal contenuto bianco
+            modal.addEventListener('click', (e) => {
+                if(e.target === modal) {
+                    modal.classList.remove('show');
+                }
+            });
     </script>
 </body>
 </html>
